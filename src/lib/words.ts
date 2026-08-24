@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { letterPrefixes } from "@/lib/word-query";
+import { letterPrefixes, rankWordSuggestions } from "@/lib/word-query";
 
 export const WORDS_PER_PAGE = 120;
 export const SEARCH_LIMIT = 100;
+export const SUGGESTION_LIMIT = 6;
 
 export async function listWordsByLetter(letter: string, page: number) {
   const prefixes = letterPrefixes(letter);
@@ -49,6 +50,55 @@ export async function searchWords(query: string) {
     }),
   ]);
   return { words, total, limited: total > SEARCH_LIMIT };
+}
+
+export async function suggestWords(query: string) {
+  const value = query.trim();
+  if (value.length < 2) return [];
+
+  const select = {
+    id: true,
+    koelsch: true,
+    slug: true,
+    translation: true,
+  } as const;
+  const orderBy = [{ koelsch: "asc" as const }, { id: "asc" as const }];
+  const [koelschStarts, translationStarts, partialMatches] =
+    await prisma.$transaction([
+      prisma.word.findMany({
+        where: {
+          koelsch: { startsWith: value, mode: "insensitive" },
+        },
+        orderBy,
+        select,
+        take: SUGGESTION_LIMIT,
+      }),
+      prisma.word.findMany({
+        where: {
+          translation: { startsWith: value, mode: "insensitive" },
+        },
+        orderBy,
+        select,
+        take: SUGGESTION_LIMIT,
+      }),
+      prisma.word.findMany({
+        where: {
+          OR: [
+            { koelsch: { contains: value, mode: "insensitive" } },
+            { translation: { contains: value, mode: "insensitive" } },
+          ],
+        },
+        orderBy,
+        select,
+        take: 30,
+      }),
+    ]);
+
+  return rankWordSuggestions(
+    [...koelschStarts, ...translationStarts, ...partialMatches],
+    value,
+    SUGGESTION_LIMIT,
+  );
 }
 
 export function getWordBySlug(slug: string) {

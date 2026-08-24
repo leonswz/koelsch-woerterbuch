@@ -21,6 +21,49 @@ export function normalizeSearchQuery(value: string | undefined): string {
   return value?.trim() ?? "";
 }
 
+export type WordSuggestion = {
+  id: number;
+  koelsch: string;
+  slug: string;
+  translation: string;
+};
+
+function suggestionScore(word: WordSuggestion, query: string) {
+  const koelsch = word.koelsch.toLocaleLowerCase("de-DE");
+  const translation = word.translation.toLocaleLowerCase("de-DE");
+  if (koelsch === query) return 0;
+  if (koelsch.startsWith(query)) return 1;
+  if (translation === query) return 2;
+  if (translation.startsWith(query)) return 3;
+  if (koelsch.includes(query)) return 4;
+  if (translation.includes(query)) return 5;
+  return 6;
+}
+
+export function rankWordSuggestions(
+  words: WordSuggestion[],
+  value: string,
+  limit = 6,
+) {
+  const query = normalizeSearchQuery(value).toLocaleLowerCase("de-DE");
+  if (!query || limit < 1) return [];
+
+  const seen = new Set<string>();
+  return [...words]
+    .sort((left, right) => {
+      const scoreDifference =
+        suggestionScore(left, query) - suggestionScore(right, query);
+      if (scoreDifference) return scoreDifference;
+      return left.koelsch.localeCompare(right.koelsch, "de-DE");
+    })
+    .filter((word) => {
+      if (seen.has(word.slug)) return false;
+      seen.add(word.slug);
+      return true;
+    })
+    .slice(0, limit);
+}
+
 export function normalizePage(value: string | undefined): number {
   const page = Number(value);
   return Number.isInteger(page) && page > 0 ? page : 1;

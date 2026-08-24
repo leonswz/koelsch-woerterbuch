@@ -31,7 +31,7 @@ export default async function SuchePage({
         </p>
       </header>
 
-      <KoelschSearch initial={query} autoFocus />
+      <KoelschSearch key={query} initial={query} autoFocus />
 
       {query ? (
         <section className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-card shadow-sm">
