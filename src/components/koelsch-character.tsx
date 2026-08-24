@@ -12,7 +12,7 @@ export function KoelschGlassStatus({
   label?: string;
 }) {
   const clipId = useId();
-  const beer = level === "full" ? { y: 10, height: 35 } : { y: 27, height: 18 };
+  const beer = level === "full" ? { y: 10, height: 35 } : { y: 24, height: 24 };
 
   return (
     <svg

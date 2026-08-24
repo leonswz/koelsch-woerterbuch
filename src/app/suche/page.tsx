@@ -44,7 +44,7 @@ export default async function SuchePage({
                     ? "half"
                     : "full"
               }
-              className="h-10 w-auto shrink-0"
+              className="h-11 w-auto shrink-0"
             />
             <div className="min-w-0">
               <p className="text-sm text-ink-soft">
@@ -71,8 +71,8 @@ export default async function SuchePage({
           {result.words.length ? (
             <WordList words={result.words} />
           ) : (
-            <div className="grid items-end overflow-hidden px-5 pt-8 sm:grid-cols-[1fr_150px] sm:px-8 sm:pt-6">
-              <div className="pb-8 text-center sm:text-left">
+            <div className="grid grid-cols-[minmax(0,1fr)_92px] items-end overflow-hidden px-5 pt-6 sm:grid-cols-[1fr_150px] sm:px-8">
+              <div className="pb-6 text-left sm:pb-8">
                 <p className="font-koelsch text-2xl font-semibold text-ink">
                   Nix dobei.
                 </p>
@@ -85,8 +85,8 @@ export default async function SuchePage({
                 alt="Bronzene Köbes-Skulptur vom Peters Brauhaus mit Kölschkranz"
                 width={500}
                 height={760}
-                sizes="150px"
-                className="mx-auto -mb-8 hidden h-40 w-auto select-none object-contain sm:block"
+                sizes="(min-width: 640px) 150px, 92px"
+                className="mx-auto -mb-1 h-28 w-auto max-w-none select-none object-contain sm:-mb-3 sm:h-40"
                 draggable={false}
               />
             </div>
@@ -94,7 +94,7 @@ export default async function SuchePage({
         </section>
       ) : (
         <section className="flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-card p-5 text-ink-soft">
-          <KoelschGlassStatus level="half" className="h-12 w-auto shrink-0" />
+          <KoelschGlassStatus level="half" className="h-14 w-auto shrink-0" />
           <div>
             <p className="font-medium text-ink">Jiv jet en.</p>
             <p className="mt-1 text-sm">

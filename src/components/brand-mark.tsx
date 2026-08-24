@@ -1,0 +1,32 @@
+export function BrandMark({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      role="img"
+      aria-label="Kölsch Wörterbuch"
+      className={className}
+    >
+      <rect x="1" y="1" width="38" height="38" rx="13" fill="#b04a32" />
+      <path
+        d="M10.5 8.5h10l-1.1 22.2c-.1 1.8-1.4 2.8-3.9 2.8s-3.8-1-3.9-2.8Z"
+        fill="#fffaf2"
+        stroke="#fffaf2"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.2 15h7.1l-.7 15.1c-.1 1.1-1 1.6-3.1 1.6s-3-.5-3.1-1.6Z"
+        fill="#e5aa31"
+      />
+      <path d="M12 14h7.5" stroke="#fff" strokeWidth="2.8" />
+      <path
+        d="M19.5 20.5 29.2 10M19.5 20.5 30 31"
+        fill="none"
+        stroke="#fffaf2"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

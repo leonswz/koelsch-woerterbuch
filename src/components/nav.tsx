@@ -12,6 +12,7 @@ import {
   Quote,
 } from "lucide-react";
 
+import { BrandMark } from "@/components/brand-mark";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -64,9 +65,7 @@ export function Nav() {
           className="group flex items-center gap-3 text-ink"
           aria-label="Kölsch Wörterbuch – Startseite"
         >
-          <span className="grid size-9 place-items-center rounded-full bg-koelsch font-koelsch text-lg font-semibold text-white shadow-sm transition-transform group-hover:-rotate-3">
-            K
-          </span>
+          <BrandMark className="size-9 shrink-0 shadow-sm transition-transform group-hover:-rotate-3" />
           <span className="font-koelsch text-xl font-semibold tracking-tight">
             Kölsch Wörterbuch
           </span>
@@ -89,9 +88,7 @@ export function Nav() {
             className="w-[min(88vw,380px)] gap-0 border-line bg-paper p-0 text-ink sm:max-w-[380px]"
           >
             <SheetHeader className="border-b border-line px-6 pb-5 pt-7 text-left">
-              <div className="mb-3 grid size-11 place-items-center rounded-full bg-koelsch font-koelsch text-xl font-semibold text-white shadow-sm">
-                K
-              </div>
+              <BrandMark className="mb-3 size-11 shadow-sm" />
               <SheetTitle className="font-koelsch text-2xl font-semibold text-ink">
                 Et Menü
               </SheetTitle>

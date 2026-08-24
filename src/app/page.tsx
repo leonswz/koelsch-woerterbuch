@@ -64,8 +64,8 @@ export default async function Home() {
 
       {wordOfTheDay ? (
         <section className="relative overflow-hidden rounded-[var(--radius-card)] border border-line bg-[#f8f1e7] shadow-sm">
-          <div className="grid min-h-[210px] sm:grid-cols-[minmax(0,1fr)_210px]">
-            <div className="relative z-10 flex flex-col justify-center px-6 py-6 sm:px-8">
+          <div className="grid min-h-[210px] grid-cols-[minmax(0,1fr)_92px] sm:grid-cols-[minmax(0,1fr)_210px]">
+            <div className="relative z-10 flex flex-col justify-center px-5 py-6 sm:px-8">
               <div className="mb-3 flex items-center gap-2.5 text-sm font-medium text-koelsch">
                 <KoelschGlassStatus level="full" className="h-9 w-auto" />
                 <span>Hück för dich · Wort des Tages</span>
@@ -89,15 +89,15 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="relative hidden items-end justify-center overflow-hidden sm:flex">
-              <div className="absolute inset-x-3 bottom-3 top-3 rounded-full bg-koelsch-soft/70 blur-2xl" />
+            <div className="relative flex items-end justify-center overflow-hidden">
+              <div className="absolute inset-x-1 bottom-3 top-8 rounded-full bg-koelsch-soft/70 blur-xl sm:inset-x-3 sm:top-3 sm:blur-2xl" />
               <Image
                 src="/images/koebes-peters-bronze.png"
                 alt="Bronzene Köbes-Skulptur vom Peters Brauhaus mit Kölschkranz"
                 width={500}
                 height={760}
-                sizes="210px"
-                className="relative -mb-3 h-[220px] w-auto select-none object-contain"
+                sizes="(min-width: 640px) 210px, 92px"
+                className="relative -mb-1 h-[150px] w-auto max-w-none select-none object-contain sm:-mb-3 sm:h-[220px]"
                 draggable={false}
               />
             </div>
