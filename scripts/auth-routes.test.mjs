@@ -50,6 +50,11 @@ test("redirects protected pages to login while leaving the login page public", a
       new NextRequest("https://koelsch.example/login"),
     );
     assert.equal(publicResponse.headers.get("x-middleware-next"), "1");
+
+    const imageResponse = await proxy(
+      new NextRequest("https://koelsch.example/images/koelsch-glass-real.png"),
+    );
+    assert.equal(imageResponse.headers.get("x-middleware-next"), "1");
   });
 });
 

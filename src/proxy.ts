@@ -9,7 +9,9 @@ const PUBLIC_PATHS = new Set(["/login", "/api/session"]);
 
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  if (PUBLIC_PATHS.has(pathname)) return NextResponse.next();
+  if (PUBLIC_PATHS.has(pathname) || pathname.startsWith("/images/")) {
+    return NextResponse.next();
+  }
 
   const secret = process.env.SESSION_SECRET ?? "";
   const username = process.env.APP_USERNAME ?? "";
