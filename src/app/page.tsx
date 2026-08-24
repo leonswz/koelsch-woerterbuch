@@ -67,10 +67,10 @@ export default async function Home() {
 
       {wordOfTheDay ? (
         <section className="relative overflow-hidden rounded-[var(--radius-card)] border border-line bg-[#f8f1e7] shadow-sm">
-          <div className="grid min-h-[250px] sm:grid-cols-[minmax(0,1fr)_230px]">
-            <div className="relative z-10 flex flex-col justify-center px-6 py-7 sm:px-8 sm:py-9">
-              <div className="mb-4 flex items-center gap-2 text-sm font-medium text-koelsch">
-                <KoelschGlassStatus level="full" className="h-8 w-auto" />
+          <div className="grid min-h-[210px] sm:grid-cols-[minmax(0,1fr)_210px]">
+            <div className="relative z-10 flex flex-col justify-center px-6 py-6 sm:px-8">
+              <div className="mb-3 flex items-center gap-2.5 text-sm font-medium text-koelsch">
+                <KoelschGlassStatus level="full" className="h-9 w-auto" />
                 <span>Hück för dich · Wort des Tages</span>
               </div>
               <h2 className="font-koelsch text-4xl font-semibold leading-none tracking-tight text-ink sm:text-5xl">
@@ -81,12 +81,12 @@ export default async function Home() {
                   [{wordOfTheDay.phonetic}]
                 </p>
               ) : null}
-              <p className="mt-4 max-w-md text-lg leading-relaxed text-ink-soft">
+              <p className="mt-3 max-w-md text-lg leading-relaxed text-ink-soft">
                 {wordOfTheDay.translation}
               </p>
               <Link
                 href={`/wort/${wordOfTheDay.slug}`}
-                className="mt-5 w-fit text-sm font-medium text-koelsch underline-offset-4 hover:underline"
+                className="mt-3 inline-flex min-h-10 w-fit items-center text-sm font-medium text-koelsch underline-offset-4 hover:underline"
               >
                 Dat Wood ansehen →
               </Link>
@@ -94,7 +94,7 @@ export default async function Home() {
 
             <div className="relative hidden items-end justify-center overflow-hidden sm:flex">
               <div className="absolute inset-x-3 bottom-3 top-3 rounded-full bg-koelsch-soft/70 blur-2xl" />
-              <KoebesIllustration className="relative -mb-7 h-[270px] w-auto" />
+              <KoebesIllustration className="relative -mb-3 h-[220px] w-auto" />
             </div>
           </div>
         </section>
