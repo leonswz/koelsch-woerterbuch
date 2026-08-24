@@ -47,10 +47,10 @@ export default async function Home() {
           </div>
         </div>
         <Image
-          src="/images/koelsch-glass-real.png"
-          alt="Eine echte Kölsch-Stange mit goldgelbem Bier und Schaumkrone"
-          width={339}
-          height={993}
+          src="/images/koelsch-glass-photo.png"
+          alt="Eine fotografierte Kölsch-Stange mit goldgelbem Bier und Schaumkrone"
+          width={434}
+          height={1365}
           priority
           sizes="(min-width: 640px) 104px, 0px"
           className="mx-auto hidden h-64 w-auto select-none drop-shadow-[0_18px_18px_rgba(74,48,26,0.18)] sm:block sm:h-72"
