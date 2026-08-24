@@ -53,7 +53,7 @@ export default async function Home() {
           height={1365}
           priority
           sizes="(min-width: 640px) 104px, 0px"
-          className="mx-auto hidden h-64 w-auto select-none drop-shadow-[0_18px_18px_rgba(74,48,26,0.18)] sm:block sm:h-72"
+          className="mx-auto hidden h-64 w-auto select-none drop-shadow-[0_18px_18px_rgba(74,48,26,0.18)] sm:block sm:h-80 sm:-translate-x-3"
           draggable={false}
         />
       </section>
