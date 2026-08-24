@@ -21,6 +21,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <footer className="border-t border-line py-8 text-center text-sm text-ink-faint">
           <p>Kölsch Wörterbuch · Et Hätz schleiht in Kölle</p>
+          <p className="mt-2 text-xs">
+            Köbes-Skulptur: {" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:Peters_Brauhaus_K%C3%B6bes.jpg"
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-2 hover:text-ink-soft"
+            >
+              Fridolin freudenfett / Wikimedia Commons
+            </a>{" "}
+            · CC BY-SA 4.0
+          </p>
         </footer>
       </body>
     </html>

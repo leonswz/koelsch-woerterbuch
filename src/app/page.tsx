@@ -1,9 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  KoebesIllustration,
-  KoelschGlassStatus,
-} from "@/components/koelsch-character";
+import { KoelschGlassStatus } from "@/components/koelsch-character";
 import { KoelschSearch } from "@/components/koelsch-search";
 import { countWords, getWordOfTheDay } from "@/lib/words";
 
@@ -94,7 +91,15 @@ export default async function Home() {
 
             <div className="relative hidden items-end justify-center overflow-hidden sm:flex">
               <div className="absolute inset-x-3 bottom-3 top-3 rounded-full bg-koelsch-soft/70 blur-2xl" />
-              <KoebesIllustration className="relative -mb-3 h-[220px] w-auto" />
+              <Image
+                src="/images/koebes-peters-bronze.png"
+                alt="Bronzene Köbes-Skulptur vom Peters Brauhaus mit Kölschkranz"
+                width={500}
+                height={760}
+                sizes="210px"
+                className="relative -mb-3 h-[220px] w-auto select-none object-contain"
+                draggable={false}
+              />
             </div>
           </div>
         </section>

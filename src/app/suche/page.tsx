@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
-import {
-  KoebesIllustration,
-  KoelschGlassStatus,
-} from "@/components/koelsch-character";
+import { KoelschGlassStatus } from "@/components/koelsch-character";
 import { KoelschSearch } from "@/components/koelsch-search";
 import { WordList } from "@/components/word-list";
 import { normalizeSearchQuery } from "@/lib/word-query";
@@ -82,7 +80,15 @@ export default async function SuchePage({
                   Dä Köbes meint: Probier et ens kürzer oder anders jeschrevve.
                 </p>
               </div>
-              <KoebesIllustration className="mx-auto -mb-8 hidden h-40 w-auto sm:block" />
+              <Image
+                src="/images/koebes-peters-bronze.png"
+                alt="Bronzene Köbes-Skulptur vom Peters Brauhaus mit Kölschkranz"
+                width={500}
+                height={760}
+                sizes="150px"
+                className="mx-auto -mb-8 hidden h-40 w-auto select-none object-contain sm:block"
+                draggable={false}
+              />
             </div>
           )}
         </section>
