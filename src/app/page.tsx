@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { KoelschSearch } from "@/components/koelsch-search";
 import { countWords } from "@/lib/words";
@@ -45,10 +46,14 @@ export default async function Home() {
             <KoelschSearch autoFocus />
           </div>
         </div>
-        <img
-          src="/images/koelsch-glass.png"
-          alt="Ein Kölsch-Glas mit goldenem Bier und Schaumkrone"
-          className="mx-auto hidden h-56 w-auto select-none sm:block sm:h-64"
+        <Image
+          src="/images/koelsch-glass-real.png"
+          alt="Eine echte Kölsch-Stange mit goldgelbem Bier und Schaumkrone"
+          width={339}
+          height={993}
+          priority
+          sizes="(min-width: 640px) 104px, 0px"
+          className="mx-auto hidden h-64 w-auto select-none drop-shadow-[0_18px_18px_rgba(74,48,26,0.18)] sm:block sm:h-72"
           draggable={false}
         />
       </section>
