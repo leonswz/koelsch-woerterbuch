@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Word {
+  id                 Int      @id @default(autoincrement())
+  koelsch            String   @unique
+  slug               String   @unique
+  phonetic           String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  category           String   @default("allgemein")
+  createdAt          DateTime @default(now())
+}
+
+model Song {
+  id         Int      @id @default(autoincrement())
+  title      String
+  slug       String   @unique
+  artist     String
+  lyrics     String?
+  youtubeUrl String?
+  createdAt  DateTime @default(now())
+}
+
+model Proverb {
+  id          Int      @id @default(autoincrement())
+  koelsch     String   @unique
+  translation String
+  explanation String?
+  createdAt   DateTime @default(now())
+}
