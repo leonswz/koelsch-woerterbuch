@@ -40,6 +40,26 @@ npm run scrape:wiktionary -- --write
 
 Der Datenbankmodus verwendet `createMany(..., skipDuplicates: true)`: vorhandene Wörter oder Slugs werden nicht überschrieben. Neue Importe erhalten zunächst `reviewStatus = "pending"`. Mehrdeutige Formen werden zu einem Wort zusammengeführt, während alle Wiktionary-Seiten und Revisionsnummern im JSON-Feld `sources` erhalten bleiben.
 
+## Privates persönliches Prüfkorpus
+
+Für die persönliche Sichtung kann zusätzlich ein lokales Korpus aus den A–Z-Seiten von `koelsch-woerterbuch.de` erzeugt werden:
+
+```bash
+# Kleiner Probelauf
+npm run scrape:private -- --limit=100
+
+# Vollständiger, gedrosselter Lauf
+npm run scrape:private
+```
+
+Der Importer übernimmt ausschließlich Kölsch-/Deutsch-Wortpaare. Lieder, Sprichwörter, das Kölsche Grundgesetz, Kommentare, Beispiele und redaktionelle Texte werden ausgeschlossen. Cache und Ergebnis landen unter `.private/koelsch-woerterbuch-de/`, sind per `.gitignore` vom Repository ausgeschlossen und werden nicht automatisch in die öffentliche Datenbank geschrieben. Ein abgebrochener Lauf wird über `crawl-cache.jsonl` fortgesetzt.
+
+Optionale Steuerung:
+
+```bash
+npm run scrape:private -- --concurrency=6 --rps=8
+```
+
 ## Quelle und Lizenz
 
 Die importierten Übersetzungen stammen aus dem [deutschsprachigen Wiktionary](https://de.wiktionary.org/) und stehen unter [Creative Commons Namensnennung – Weitergabe unter gleichen Bedingungen 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de). Jeder importierte Datensatz enthält Quellenlink, Seiten-ID, Revisions-ID, Revisionszeitpunkt und Lizenzangabe.

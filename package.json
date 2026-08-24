@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --test scripts/*.test.mjs",
-    "scrape:wiktionary": "node scripts/import-wiktionary.mjs"
+    "scrape:wiktionary": "node scripts/import-wiktionary.mjs",
+    "scrape:private": "node scripts/import-koelsch-woerterbuch-de.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
