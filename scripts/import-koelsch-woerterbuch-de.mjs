@@ -4,6 +4,9 @@ import { appendFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import {
+  curateWordPairs,
+} from "./koelsch-woerterbuch-parser.mjs";
+import {
   crawlWordEntries,
   fetchIndexEntries,
 } from "./koelsch-woerterbuch-client.mjs";
@@ -103,31 +106,8 @@ for (const word of crawl.words) cachedWords.set(word.sourceUrl, word);
 const words = selected
   .map((entry) => cachedWords.get(entry.sourceUrl))
   .filter(Boolean);
-const groups = new Map();
-for (const word of words) {
-  const key = word.koelsch.normalize("NFKC").toLocaleLowerCase("de-DE");
-  const group = groups.get(key) ?? {
-    koelsch: word.koelsch,
-    translations: new Set(),
-    sources: [],
-  };
-  group.translations.add(word.translation);
-  if (!group.sources.some((source) => source.sourceUrl === word.sourceUrl)) {
-    group.sources.push({ sourceId: word.sourceId, sourceUrl: word.sourceUrl });
-  }
-  groups.set(key, group);
-}
-
-const curated = [...groups.values()]
-  .map((group) => ({
-    koelsch: group.koelsch,
-    translation: [...group.translations].sort((a, b) =>
-      a.localeCompare(b, "de-DE"),
-    ).join("; "),
-    reviewStatus: "pending",
-    sources: group.sources,
-  }))
-  .sort((a, b) => a.koelsch.localeCompare(b.koelsch, "de-DE"));
+const { words: curated, rejected } = curateWordPairs(words);
+const flaggedHeadwords = curated.filter((word) => word.reviewFlags.length > 0);
 
 const artifact = {
   metadata: {
@@ -138,6 +118,8 @@ const artifact = {
     selectedEntries: selected.length,
     parsedPairs: words.length,
     uniqueHeadwords: curated.length,
+    rejectedEntries: rejected.length,
+    flaggedHeadwords: flaggedHeadwords.length,
     missingThisRun: crawl.missing.length,
     failedThisRun: crawl.failed.length,
     excludedContent: [
@@ -149,6 +131,7 @@ const artifact = {
     ],
   },
   words: curated,
+  rejected,
 };
 
 await writeFile(outputPath, `${JSON.stringify(artifact, null, 2)}\n`, "utf8");
@@ -157,6 +140,8 @@ console.log(
     {
       parsedPairs: words.length,
       uniqueHeadwords: curated.length,
+      rejectedEntries: rejected.length,
+      flaggedHeadwords: flaggedHeadwords.length,
       missingThisRun: crawl.missing.length,
       failedThisRun: crawl.failed.length,
       outputPath,

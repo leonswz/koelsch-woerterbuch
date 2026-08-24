@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  curateWordPairs,
   parseIndexPage,
   parseWordPage,
 } from "./koelsch-woerterbuch-parser.mjs";
@@ -89,4 +90,40 @@ test("word parser decodes entities and rejects pages without a translation box",
 
   assert.equal(parseWordPage(html, source).translation, "Kartoffeln & Erdäpfel");
   assert.equal(parseWordPage("<h1>Nicht gefunden</h1>", source), null);
+});
+
+test("curation excludes non-dictionary categories and flags suspicious headwords", () => {
+  const source = (sourceId) => ({
+    sourceId,
+    sourceUrl: `https://www.koelsch-woerterbuch.de/wort-auf-deutsch-${sourceId}.html`,
+  });
+  const words = [
+    { koelsch: "Botz", translation: "Hose", ...source(1) },
+    { koelsch: "botz", translation: "Beinkleid", ...source(2) },
+    {
+      koelsch: "Kenne mer nit, bruche mer nit, fott domet",
+      translation: "Kölsches Grundgesetz / Paragraph §6",
+      ...source(3),
+    },
+    {
+      koelsch: "hochbetagten Personen vorbehalten. Auch dieser Erklärungstext ist kein Stichwort",
+      translation: "Lehnstuhl",
+      ...source(4),
+    },
+  ];
+
+  const result = curateWordPairs(words);
+
+  assert.equal(result.words.length, 2);
+  assert.deepEqual(result.words[0], {
+    koelsch: "Botz",
+    translation: "Beinkleid; Hose",
+    reviewStatus: "pending",
+    reviewFlags: [],
+    sources: [source(1), source(2)],
+  });
+  assert.deepEqual(result.words[1].reviewFlags, ["suspicious-headword-length"]);
+  assert.deepEqual(result.rejected, [
+    { ...words[2], reason: "excluded-content:koelsches-grundgesetz" },
+  ]);
 });
