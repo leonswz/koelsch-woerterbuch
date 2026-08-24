@@ -58,3 +58,33 @@ export function getWordBySlug(slug: string) {
 export function countWords() {
   return prisma.word.count();
 }
+
+function dailySeed(date: Date) {
+  const key = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+
+  return Array.from(key).reduce(
+    (seed, character) => (seed * 31 + character.charCodeAt(0)) >>> 0,
+    17,
+  );
+}
+
+export async function getWordOfTheDay(date = new Date()) {
+  const total = await prisma.word.count();
+  if (!total) return null;
+
+  return prisma.word.findFirst({
+    orderBy: [{ id: "asc" }],
+    skip: dailySeed(date) % total,
+    select: {
+      koelsch: true,
+      slug: true,
+      translation: true,
+      phonetic: true,
+    },
+  });
+}

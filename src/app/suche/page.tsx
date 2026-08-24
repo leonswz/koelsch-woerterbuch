@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 
+import {
+  KoebesIllustration,
+  KoelschGlassStatus,
+} from "@/components/koelsch-character";
 import { KoelschSearch } from "@/components/koelsch-search";
 import { WordList } from "@/components/word-list";
 import { normalizeSearchQuery } from "@/lib/word-query";
@@ -33,43 +37,64 @@ export default async function SuchePage({
 
       {query ? (
         <section className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-card shadow-sm">
-          <div className="border-b border-line bg-paper/45 px-5 py-4">
-            <p className="text-sm text-ink-soft">
-              {result.total ? (
-                <>
-                  <strong className="font-semibold text-ink">
-                    {numberFormat.format(result.total)}
-                  </strong>{" "}
-                  {result.total === 1 ? "Treffer" : "Treffer"} für „{query}“
-                </>
-              ) : (
-                <>Keine Treffer für „{query}“</>
-              )}
-            </p>
-            {result.limited ? (
-              <p className="mt-1 text-xs text-ink-faint">
-                Angezeigt werden die ersten {SEARCH_LIMIT} Einträge. Mit einem
-                genaueren Begriff wird die Liste kürzer.
+          <div className="flex items-center gap-3 border-b border-line bg-paper/45 px-5 py-3.5">
+            <KoelschGlassStatus
+              level={
+                result.total === 0
+                  ? "empty"
+                  : result.total < 10
+                    ? "half"
+                    : "full"
+              }
+              className="h-10 w-auto shrink-0"
+            />
+            <div className="min-w-0">
+              <p className="text-sm text-ink-soft">
+                {result.total ? (
+                  <>
+                    <strong className="font-semibold text-ink">
+                      {numberFormat.format(result.total)}
+                    </strong>{" "}
+                    Treffer für „{query}“
+                  </>
+                ) : (
+                  <>Kein Kölsch för „{query}“</>
+                )}
               </p>
-            ) : null}
+              {result.limited ? (
+                <p className="mt-1 text-xs text-ink-faint">
+                  Angezeigt werden die ersten {SEARCH_LIMIT} Einträge. Mit einem
+                  genaueren Begriff wird die Liste kürzer.
+                </p>
+              ) : null}
+            </div>
           </div>
 
           {result.words.length ? (
             <WordList words={result.words} />
           ) : (
-            <div className="px-5 py-10 text-center">
-              <p className="font-koelsch text-xl font-semibold text-ink">
-                Nix dobei.
-              </p>
-              <p className="mt-2 text-sm text-ink-soft">
-                Probier eine andere Schreibweise oder einen kürzeren Begriff.
-              </p>
+            <div className="grid items-end overflow-hidden px-5 pt-8 sm:grid-cols-[1fr_150px] sm:px-8 sm:pt-6">
+              <div className="pb-8 text-center sm:text-left">
+                <p className="font-koelsch text-2xl font-semibold text-ink">
+                  Nix dobei.
+                </p>
+                <p className="mt-2 text-sm text-ink-soft">
+                  Dä Köbes meint: Probier et ens kürzer oder anders jeschrevve.
+                </p>
+              </div>
+              <KoebesIllustration className="mx-auto -mb-8 hidden h-40 w-auto sm:block" />
             </div>
           )}
         </section>
       ) : (
-        <section className="rounded-[var(--radius-card)] border border-line bg-card p-6 text-ink-soft">
-          Tippe oben ein Wort ein, um den Bestand zu durchsuchen.
+        <section className="flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-card p-5 text-ink-soft">
+          <KoelschGlassStatus level="half" className="h-12 w-auto shrink-0" />
+          <div>
+            <p className="font-medium text-ink">Jiv jet en.</p>
+            <p className="mt-1 text-sm">
+              Kölsch oder Deutsch – dä Rest kütt von allein.
+            </p>
+          </div>
         </section>
       )}
     </div>
