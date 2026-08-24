@@ -1,0 +1,489 @@
+{
+  "metadata": {
+    "source": "Deutschsprachiges Wiktionary",
+    "category": "https://de.wiktionary.org/wiki/Kategorie:%C3%9Cbersetzungen_(K%C3%B6lsch)",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.de",
+    "fetchedAt": "2026-08-24T12:23:53.706Z",
+    "requestedPageLimit": 100,
+    "fetchedPages": 23,
+    "rawTranslations": 23,
+    "uniqueWords": 22,
+    "skippedPages": [
+      "Afrika-Eurasien",
+      "Genua"
+    ]
+  },
+  "words": [
+    {
+      "koelsch": "Aanliijer",
+      "slug": "aanliijer",
+      "translation": "Anlieger",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Anlieger",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Anlieger",
+          "pageId": 551814,
+          "revisionId": 10558711,
+          "revisionTimestamp": "2026-02-13T01:59:57Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Äd",
+      "slug": "aed",
+      "translation": "Erde",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Erde",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Erde",
+          "pageId": 2212,
+          "revisionId": 10672970,
+          "revisionTimestamp": "2026-05-26T15:53:10Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Aujuss",
+      "slug": "aujuss",
+      "translation": "August",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/August",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/August",
+          "pageId": 724,
+          "revisionId": 10626169,
+          "revisionTimestamp": "2026-04-02T21:46:37Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Botz",
+      "slug": "botz",
+      "translation": "Hose",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Hose",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Hose",
+          "pageId": 18563,
+          "revisionId": 10708402,
+          "revisionTimestamp": "2026-07-04T08:02:16Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "buun",
+      "slug": "buun",
+      "translation": "Buhne",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Buhne",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Buhne",
+          "pageId": 272779,
+          "revisionId": 10341541,
+          "revisionTimestamp": "2025-07-18T15:12:55Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Effe",
+      "slug": "effe",
+      "translation": "Efeu",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Efeu",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Efeu",
+          "pageId": 134751,
+          "revisionId": 10628740,
+          "revisionTimestamp": "2026-04-06T13:37:59Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Funz",
+      "slug": "funz",
+      "translation": "Fut; Vagina",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Fut",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Fut",
+          "pageId": 5872,
+          "revisionId": 10577870,
+          "revisionTimestamp": "2026-02-26T02:26:11Z",
+          "license": "CC BY-SA 4.0"
+        },
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Vagina",
+          "pageId": 13471,
+          "revisionId": 10627966,
+          "revisionTimestamp": "2026-04-05T20:44:56Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Helium",
+      "slug": "helium",
+      "translation": "Helium",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Helium",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Helium",
+          "pageId": 2080,
+          "revisionId": 10614740,
+          "revisionTimestamp": "2026-03-28T12:57:36Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Jung",
+      "slug": "jung",
+      "translation": "Sohn",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Sohn",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Sohn",
+          "pageId": 6212,
+          "revisionId": 10580848,
+          "revisionTimestamp": "2026-02-26T11:11:02Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Kies",
+      "slug": "kies",
+      "translation": "Käse",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/K%C3%A4se",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/K%C3%A4se",
+          "pageId": 4640,
+          "revisionId": 10685345,
+          "revisionTimestamp": "2026-06-02T19:01:47Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "kölsch",
+      "slug": "koelsch",
+      "translation": "kölsch",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/k%C3%B6lsch",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/k%C3%B6lsch",
+          "pageId": 638086,
+          "revisionId": 10158913,
+          "revisionTimestamp": "2024-12-16T18:33:11Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "och",
+      "slug": "och",
+      "translation": "auch",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/auch",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/auch",
+          "pageId": 5717,
+          "revisionId": 10709474,
+          "revisionTimestamp": "2026-07-05T07:21:08Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Ping",
+      "slug": "ping",
+      "translation": "Schmerz",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Schmerz",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": true,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Schmerz",
+          "pageId": 25435,
+          "revisionId": 10542446,
+          "revisionTimestamp": "2026-02-01T14:49:56Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Rallef",
+      "slug": "rallef",
+      "translation": "Ralf",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Ralf",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Ralf",
+          "pageId": 23519,
+          "revisionId": 9714239,
+          "revisionTimestamp": "2023-01-22T12:27:15Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "sing",
+      "slug": "sing",
+      "translation": "sein",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/sein",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/sein",
+          "pageId": 892,
+          "revisionId": 10498950,
+          "revisionTimestamp": "2025-12-14T19:44:05Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "singe",
+      "slug": "singe",
+      "translation": "sein",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/sein",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/sein",
+          "pageId": 892,
+          "revisionId": 10498950,
+          "revisionTimestamp": "2025-12-14T19:44:05Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "sinn",
+      "slug": "sinn",
+      "translation": "sein",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/sein",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/sein",
+          "pageId": 892,
+          "revisionId": 10498950,
+          "revisionTimestamp": "2025-12-14T19:44:05Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Trapp",
+      "slug": "trapp",
+      "translation": "Treppe",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Treppe",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Treppe",
+          "pageId": 15526,
+          "revisionId": 10637720,
+          "revisionTimestamp": "2026-04-17T03:40:40Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Trittuarschwalf",
+      "slug": "trittuarschwalf",
+      "translation": "Prostituierte",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Prostituierte",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Prostituierte",
+          "pageId": 25710,
+          "revisionId": 10631499,
+          "revisionTimestamp": "2026-04-08T07:09:15Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Tünnes",
+      "slug": "tuennes",
+      "translation": "Anton",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Anton",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Anton",
+          "pageId": 33933,
+          "revisionId": 9613335,
+          "revisionTimestamp": "2023-01-11T21:11:59Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Wedder",
+      "slug": "wedder",
+      "translation": "Wetter",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Wetter",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": true,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Wetter",
+          "pageId": 2184,
+          "revisionId": 10608191,
+          "revisionTimestamp": "2026-03-16T18:03:22Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    },
+    {
+      "koelsch": "Zant",
+      "slug": "zant",
+      "translation": "Zahn",
+      "category": "allgemein",
+      "reviewStatus": "pending",
+      "source": "Deutschsprachiges Wiktionary",
+      "sourceUrl": "https://de.wiktionary.org/wiki/Zahn",
+      "sourceLicense": "CC BY-SA 4.0",
+      "uncertain": false,
+      "sources": [
+        {
+          "name": "Deutschsprachiges Wiktionary",
+          "url": "https://de.wiktionary.org/wiki/Zahn",
+          "pageId": 29579,
+          "revisionId": 10685316,
+          "revisionTimestamp": "2026-06-02T18:40:49Z",
+          "license": "CC BY-SA 4.0"
+        }
+      ]
+    }
+  ]
+}

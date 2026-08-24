@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kölsch Wörterbuch
 
-## Getting Started
+Next.js-16-Anwendung mit PostgreSQL/Prisma für ein nachvollziehbar gepflegtes Kölsch-Wörterbuch.
 
-First, run the development server:
+## Entwicklung
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Weitere Prüfungen:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm test
+npm run lint
+npx prisma validate
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Wiktionary-Pilotimport
 
-## Learn More
+Der erste Import verwendet die offizielle MediaWiki-API und liest die Seiten aus der Kategorie [„Übersetzungen (Kölsch)“](https://de.wiktionary.org/wiki/Kategorie:%C3%9Cbersetzungen_(K%C3%B6lsch)). Standardmäßig wird **nur eine JSON-Vorschau** erzeugt:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run scrape:wiktionary
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ausgabe: `data/imports/wiktionary-koelsch-pilot.json`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Optionen:
 
-## Deploy on Vercel
+```bash
+# Nur die ersten zehn Quellseiten verarbeiten
+npm run scrape:wiktionary -- --limit=10
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Nach Prüfung in die konfigurierte Datenbank schreiben
+npm run scrape:wiktionary -- --write
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Der Datenbankmodus verwendet `createMany(..., skipDuplicates: true)`: vorhandene Wörter oder Slugs werden nicht überschrieben. Neue Importe erhalten zunächst `reviewStatus = "pending"`. Mehrdeutige Formen werden zu einem Wort zusammengeführt, während alle Wiktionary-Seiten und Revisionsnummern im JSON-Feld `sources` erhalten bleiben.
+
+## Quelle und Lizenz
+
+Die importierten Übersetzungen stammen aus dem [deutschsprachigen Wiktionary](https://de.wiktionary.org/) und stehen unter [Creative Commons Namensnennung – Weitergabe unter gleichen Bedingungen 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de). Jeder importierte Datensatz enthält Quellenlink, Seiten-ID, Revisions-ID, Revisionszeitpunkt und Lizenzangabe.
+
+Der Importer sendet einen benannten User-Agent, nutzt ausschließlich die öffentliche MediaWiki-API und verarbeitet die kleine Kölsch-Kategorie stapelweise statt HTML-Seiten aggressiv abzurufen.

@@ -16,7 +16,20 @@ model Word {
   example            String?
   exampleTranslation String?
   category           String   @default("allgemein")
+  aliases            String[] @default([])
+  partOfSpeech       String?
+  notes              String?
+  reviewStatus       String   @default("pending")
+  source             String?
+  sourceUrl          String?
+  sourceLicense      String?
+  uncertain          Boolean  @default(false)
+  sources            Json?
+  importedAt         DateTime?
   createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([reviewStatus])
 }
 
 model Song {
