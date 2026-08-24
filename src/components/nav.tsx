@@ -62,11 +62,11 @@ export function Nav() {
       <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-5 py-3.5">
         <Link
           href="/"
-          className="group flex items-center gap-3 text-ink"
+          className="group flex items-center gap-2.5 text-ink sm:gap-3"
           aria-label="Kölsch Wörterbuch – Startseite"
         >
           <BrandMark className="size-9 shrink-0 shadow-sm transition-transform group-hover:-rotate-3" />
-          <span className="font-koelsch text-xl font-semibold tracking-tight">
+          <span className="font-koelsch text-lg font-semibold tracking-tight sm:text-xl">
             Kölsch Wörterbuch
           </span>
         </Link>

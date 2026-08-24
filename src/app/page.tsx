@@ -68,7 +68,10 @@ export default async function Home() {
             <div className="relative z-10 flex flex-col justify-center px-5 py-6 sm:px-8">
               <div className="mb-3 flex items-center gap-2.5 text-sm font-medium text-koelsch">
                 <KoelschGlassStatus level="full" className="h-9 w-auto" />
-                <span>Hück för dich · Wort des Tages</span>
+                <span>
+                  Hück för dich
+                  <span className="hidden sm:inline"> · Wort des Tages</span>
+                </span>
               </div>
               <h2 className="font-koelsch text-4xl font-semibold leading-none tracking-tight text-ink sm:text-5xl">
                 {wordOfTheDay.koelsch}
