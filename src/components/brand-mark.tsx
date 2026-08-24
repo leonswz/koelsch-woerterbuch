@@ -4,9 +4,9 @@ export function BrandMark({ className = "" }: { className?: string }) {
       viewBox="0 0 40 40"
       role="img"
       aria-label="Kölsch Wörterbuch"
-      className={className}
+      className={`overflow-hidden rounded-[12px] ${className}`}
     >
-      <rect x="1" y="1" width="38" height="38" rx="13" fill="#b04a32" />
+      <rect width="40" height="40" fill="#b04a32" />
       <path
         d="M10.5 8.5h10l-1.1 22.2c-.1 1.8-1.4 2.8-3.9 2.8s-3.8-1-3.9-2.8Z"
         fill="#fffaf2"
