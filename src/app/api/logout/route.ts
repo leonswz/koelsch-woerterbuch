@@ -1,9 +1,12 @@
-import { NextResponse, type NextRequest } from "next/server.js";
+import { NextResponse } from "next/server.js";
 
 import { SESSION_COOKIE } from "../../../lib/auth-session.ts";
 
-export async function POST(request: NextRequest) {
-  const response = NextResponse.redirect(new URL("/login", request.url), 303);
+export async function POST() {
+  const response = new NextResponse(null, {
+    status: 303,
+    headers: { location: "/login" },
+  });
   response.cookies.set({
     name: SESSION_COOKIE,
     value: "",

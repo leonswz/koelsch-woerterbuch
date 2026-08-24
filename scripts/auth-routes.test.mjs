@@ -28,7 +28,7 @@ function withAuthEnvironment(callback) {
 
 function formRequest(fields) {
   const body = new URLSearchParams(fields);
-  return new NextRequest("https://koelsch.example/api/session", {
+  return new NextRequest("http://0.0.0.0:3000/api/session", {
     method: "POST",
     body,
     headers: { "content-type": "application/x-www-form-urlencoded" },
@@ -93,7 +93,7 @@ test("login POST sets the session cookie and redirects to a safe local path", as
     assert.equal(response.status, 303);
     assert.equal(
       response.headers.get("location"),
-      "https://koelsch.example/az?buchstabe=k",
+      "/az?buchstabe=k",
     );
     const cookie = response.headers.get("set-cookie") ?? "";
     assert.match(cookie, /koelsch_session=/);
@@ -112,7 +112,7 @@ test("login POST rejects wrong credentials without setting a cookie", async () =
     assert.equal(response.status, 303);
     assert.equal(
       response.headers.get("location"),
-      "https://koelsch.example/login?error=1&next=%2Faz",
+      "/login?error=1&next=%2Faz",
     );
     assert.equal(response.headers.get("set-cookie"), null);
   });
@@ -120,11 +120,11 @@ test("login POST rejects wrong credentials without setting a cookie", async () =
 
 test("logout clears the session and returns to login", async () => {
   const response = await deleteSession(
-    new NextRequest("https://koelsch.example/api/logout", { method: "POST" }),
+    new NextRequest("http://0.0.0.0:3000/api/logout", { method: "POST" }),
   );
 
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get("location"), "https://koelsch.example/login");
+  assert.equal(response.headers.get("location"), "/login");
   const cookie = response.headers.get("set-cookie") ?? "";
   assert.match(cookie, /koelsch_session=/);
   assert.match(cookie, /Max-Age=0/i);

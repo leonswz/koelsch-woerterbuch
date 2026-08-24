@@ -16,6 +16,13 @@ function authEnvironment() {
   return { username, password, secret };
 }
 
+function relativeRedirect(location: string) {
+  return new NextResponse(null, {
+    status: 303,
+    headers: { location },
+  });
+}
+
 export async function POST(request: NextRequest) {
   const configured = authEnvironment();
   if (!configured) {
@@ -29,10 +36,9 @@ export async function POST(request: NextRequest) {
   const valid = await credentialsMatch(username, password, configured);
 
   if (!valid) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("error", "1");
-    if (destination !== "/") loginUrl.searchParams.set("next", destination);
-    return NextResponse.redirect(loginUrl, 303);
+    const params = new URLSearchParams({ error: "1" });
+    if (destination !== "/") params.set("next", destination);
+    return relativeRedirect(`/login?${params.toString()}`);
   }
 
   const token = await createSessionToken({
@@ -40,7 +46,7 @@ export async function POST(request: NextRequest) {
     secret: configured.secret,
     maxAgeSeconds: SESSION_MAX_AGE_SECONDS,
   });
-  const response = NextResponse.redirect(new URL(destination, request.url), 303);
+  const response = relativeRedirect(destination);
   response.cookies.set({
     name: SESSION_COOKIE,
     value: token,
