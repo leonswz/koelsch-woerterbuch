@@ -1,6 +1,7 @@
 {
   "name": "koelsch-woerterbuch",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +10,8 @@
     "lint": "eslint",
     "test": "node --test scripts/*.test.mjs",
     "scrape:wiktionary": "node scripts/import-wiktionary.mjs",
-    "scrape:private": "node scripts/import-koelsch-woerterbuch-de.mjs"
+    "scrape:private": "node scripts/import-koelsch-woerterbuch-de.mjs",
+    "import:private": "node scripts/import-private-words.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

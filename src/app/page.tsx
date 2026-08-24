@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { KoelschSearch } from "@/components/koelsch-search";
+import { countWords } from "@/lib/words";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+export const dynamic = "force-dynamic";
 
 const categories = [
   {
@@ -21,7 +24,9 @@ const categories = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const wordCount = await countWords();
+
   return (
     <div className="grid gap-10">
       <section className="grid items-center gap-8 pt-6 sm:grid-cols-[1fr_auto]">
@@ -86,8 +91,10 @@ export default function Home() {
           ))}
         </div>
         <p className="mt-5 rounded-[var(--radius-control)] bg-paper-soft px-4 py-3 text-sm text-ink-soft">
-          Die Wörter werden gerade aufbereitet – sobald die Daten eingespielt
-          sind, findest du hier jeden Buchstaben mit allen Einträgen.
+          <strong className="font-semibold text-ink">
+            {new Intl.NumberFormat("de-DE").format(wordCount)} Wörter
+          </strong>{" "}
+          sind aktuell durchsuchbar.
         </p>
       </section>
     </div>
