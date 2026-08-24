@@ -24,20 +24,28 @@ const categories = [
 export default function Home() {
   return (
     <div className="grid gap-10">
-      <section className="pt-6 text-center">
-        <p className="mb-3 text-sm font-medium tracking-wide text-koelsch">
-          Et Kölsch Wörterbuch
-        </p>
-        <h1 className="font-koelsch text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
-          Wat heißt dat op Kölsch?
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-ink-soft">
-          Wörter, Lieder und Sprichwörter aus Köln – ruhig nachschlagen,
-          verstehen und weitersagen.
-        </p>
-        <div className="mx-auto mt-8 max-w-xl">
-          <KoelschSearch autoFocus />
+      <section className="grid items-center gap-8 pt-6 sm:grid-cols-[1fr_auto]">
+        <div className="text-center sm:text-left">
+          <p className="mb-3 text-sm font-medium tracking-wide text-koelsch">
+            Et Kölsch Wörterbuch
+          </p>
+          <h1 className="font-koelsch text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
+            Wat heißt dat op Kölsch?
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-ink-soft sm:mx-0">
+            Wörter, Lieder und Sprichwörter aus Köln – ruhig nachschlagen,
+            verstehen und weitersagen.
+          </p>
+          <div className="mx-auto mt-8 max-w-xl sm:mx-0">
+            <KoelschSearch autoFocus />
+          </div>
         </div>
+        <img
+          src="/images/koelsch-glass.png"
+          alt="Ein Kölsch-Glas mit goldenem Bier und Schaumkrone"
+          className="mx-auto hidden h-56 w-auto select-none sm:block sm:h-64"
+          draggable={false}
+        />
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">
