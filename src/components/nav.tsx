@@ -17,6 +17,7 @@ import {
 
 import { BrandMark } from "@/components/brand-mark";
 import { Button } from "@/components/ui/button";
+import { koelschCopy } from "@/lib/koelsch-copy";
 import {
   Sheet,
   SheetClose,
@@ -121,10 +122,10 @@ export function Nav({ showEditor = false }: { showEditor?: boolean }) {
             <SheetHeader className="border-b border-line px-6 pb-5 pt-7 text-left">
               <BrandMark className="mb-3 size-11 shadow-sm" />
               <SheetTitle className="font-koelsch text-2xl font-semibold text-ink">
-                Et Menü
+                Menü
               </SheetTitle>
               <SheetDescription className="text-ink-soft">
-                Wat wells de nachschlage?
+                {koelschCopy.menuPrompt}
               </SheetDescription>
             </SheetHeader>
 
@@ -173,7 +174,7 @@ export function Nav({ showEditor = false }: { showEditor?: boolean }) {
             <SheetFooter className="border-t border-line bg-paper-soft/70 p-4">
               <div className="mb-2 flex items-center gap-2 px-2 text-xs text-ink-faint">
                 <BookOpenText className="size-4" strokeWidth={1.7} />
-                <span>Et Hätz schleiht in Kölle.</span>
+                <span>{koelschCopy.footerHeart}</span>
               </div>
               <form action="/api/logout" method="post">
                 <Button

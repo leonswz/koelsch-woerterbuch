@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { KoelschGlassStatus } from "@/components/koelsch-character";
 import { KoelschSearch } from "@/components/koelsch-search";
+import { koelschCopy } from "@/lib/koelsch-copy";
 import { countWords, getWordOfTheDay } from "@/lib/words";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -45,7 +46,7 @@ export default async function Home() {
             Kölsch übersetzen & verstehen
           </p>
           <h1 className="font-koelsch text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
-            Wat heißt dat op Kölsch?
+            {koelschCopy.heroQuestion}
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-ink-soft sm:mx-0">
             Ganze Ausdrücke übersetzen, einzelne Wörter nachschlagen und mit
@@ -83,7 +84,7 @@ export default async function Home() {
               <div className="mb-3 flex items-center gap-2.5 text-sm font-medium text-koelsch">
                 <KoelschGlassStatus level="full" className="h-9 w-auto" />
                 <span>
-                  Hück för dich
+                  {koelschCopy.wordOfTheDay}
                   <span className="hidden sm:inline"> · Wort des Tages</span>
                 </span>
               </div>
