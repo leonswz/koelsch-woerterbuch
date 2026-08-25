@@ -24,6 +24,11 @@ const categories = [
     title: "Sprichwörter",
     text: "Rheinische Redensarten und was sie wirklich bedeuten.",
   },
+  {
+    href: "/grundgesetz",
+    title: "Kölsches Grundgesetz",
+    text: "Elf kölsche Lebensregeln – übersetzt, eingeordnet und mit ihrer Geschichte.",
+  },
 ];
 
 export default async function Home() {
@@ -117,7 +122,7 @@ export default async function Home() {
         </section>
       ) : null}
 
-      <section className="grid gap-4 sm:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2">
         {categories.map((category) => (
           <Link
             key={category.href}

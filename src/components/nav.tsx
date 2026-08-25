@@ -12,6 +12,7 @@ import {
   Music2,
   PenLine,
   Quote,
+  ScrollText,
 } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
@@ -59,6 +60,12 @@ const publicLinks = [
     description: "Redensarten aus Köln",
     icon: Quote,
   },
+  {
+    href: "/grundgesetz",
+    label: "Kölsches Grundgesetz",
+    description: "Elf Regeln kölscher Lebensart",
+    icon: ScrollText,
+  },
 ];
 
 export function Nav({ showEditor = false }: { showEditor?: boolean }) {
@@ -85,8 +92,13 @@ export function Nav({ showEditor = false }: { showEditor?: boolean }) {
           aria-label="Kölsch Übersetzer – Startseite"
         >
           <BrandMark className="size-9 shrink-0 shadow-sm transition-transform group-hover:-rotate-3" />
-          <span className="font-koelsch text-lg font-semibold tracking-tight sm:text-xl">
-            Kölsch Übersetzer
+          <span className="min-w-0">
+            <span className="block font-koelsch text-base font-semibold tracking-tight sm:text-xl">
+              Kölsch Übersetzer
+            </span>
+            <span className="mt-0.5 block max-w-[210px] text-[10px] leading-tight text-ink-faint sm:max-w-none sm:text-[11px]">
+              Kölsch – die einzige Sprache, die man auch trinken kann.
+            </span>
           </span>
         </Link>
 
