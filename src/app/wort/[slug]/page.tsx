@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getEditorSession } from "@/lib/editor-session";
 import { splitWordMeanings } from "@/lib/word-meanings";
-import { grammarRows, provenanceSummary } from "@/lib/word-metadata";
+import { grammarRows } from "@/lib/word-metadata";
 import { buildWordExplanation } from "@/lib/word-relations";
 import { getRelatedWords, getWordBySlug } from "@/lib/words";
 
@@ -43,7 +43,6 @@ export default async function WortPage({
         region: null,
       }));
   const grammar = grammarRows(word);
-  const provenance = provenanceSummary(word);
 
   return (
     <div className="grid gap-6">
@@ -182,30 +181,7 @@ export default async function WortPage({
             </section>
           ) : null}
 
-          <section className="rounded-[var(--radius-control)] border border-line bg-paper/40 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint">
-              Datenstand
-            </p>
-            <p className="mt-2 text-sm font-semibold text-ink">{provenance.label}</p>
-            <p className="mt-1 text-sm leading-6 text-ink-soft">{provenance.description}</p>
-            {provenance.source ? (
-              <p className="mt-2 text-xs text-ink-faint">
-                Quelle:{" "}
-                {provenance.sourceUrl ? (
-                  <a
-                    href={provenance.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-koelsch hover:underline"
-                  >
-                    {provenance.source}
-                  </a>
-                ) : (
-                  provenance.source
-                )}
-              </p>
-            ) : null}
-          </section>
+
         </div>
       </article>
 
