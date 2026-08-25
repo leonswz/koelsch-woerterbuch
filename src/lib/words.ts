@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { letterPrefixes, rankWordSuggestions } from "@/lib/word-query";
+import {
+  rankRelatedWords,
+  relatedSearchTerms,
+  type WordRelationSource,
+} from "@/lib/word-relations";
 
 export const WORDS_PER_PAGE = 120;
 export const SEARCH_LIMIT = 100;
@@ -103,6 +108,37 @@ export async function suggestWords(query: string) {
 
 export function getWordBySlug(slug: string) {
   return prisma.word.findUnique({ where: { slug } });
+}
+
+export async function getRelatedWords(word: WordRelationSource, limit = 6) {
+  const terms = relatedSearchTerms(word.translation);
+  const relationFilters = [
+    ...terms.map((term) => ({
+      translation: { contains: term, mode: "insensitive" as const },
+    })),
+    ...(word.category !== "allgemein"
+      ? [{ category: { equals: word.category, mode: "insensitive" as const } }]
+      : []),
+  ];
+  if (!relationFilters.length) return [];
+
+  const candidates = await prisma.word.findMany({
+    where: {
+      id: { not: word.id },
+      OR: relationFilters,
+    },
+    select: {
+      id: true,
+      koelsch: true,
+      slug: true,
+      translation: true,
+      category: true,
+    },
+    orderBy: [{ koelsch: "asc" }, { id: "asc" }],
+    take: 80,
+  });
+
+  return rankRelatedWords(word, candidates, limit);
 }
 
 export function countWords() {
