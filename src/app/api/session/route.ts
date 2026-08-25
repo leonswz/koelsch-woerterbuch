@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server.js";
 
+import { authEnvironment } from "../../../lib/auth-config.ts";
 import {
   createSessionToken,
   credentialsMatch,
@@ -7,14 +8,6 @@ import {
   SESSION_COOKIE,
   SESSION_MAX_AGE_SECONDS,
 } from "../../../lib/auth-session.ts";
-
-function authEnvironment() {
-  const username = process.env.APP_USERNAME;
-  const password = process.env.APP_PASSWORD;
-  const secret = process.env.SESSION_SECRET;
-  if (!username || !password || !secret || secret.length < 32) return null;
-  return { username, password, secret };
-}
 
 function relativeRedirect(location: string) {
   return new NextResponse(null, {
@@ -33,16 +26,21 @@ export async function POST(request: NextRequest) {
   const username = String(form.get("username") ?? "").trim();
   const password = String(form.get("password") ?? "");
   const destination = safeRedirectPath(String(form.get("next") ?? "/"));
-  const valid = await credentialsMatch(username, password, configured);
+  const checks = await Promise.all(
+    configured.accounts.map((account) =>
+      credentialsMatch(username, password, account),
+    ),
+  );
+  const account = configured.accounts[checks.findIndex(Boolean)];
 
-  if (!valid) {
+  if (!account) {
     const params = new URLSearchParams({ error: "1" });
     if (destination !== "/") params.set("next", destination);
     return relativeRedirect(`/login?${params.toString()}`);
   }
 
   const token = await createSessionToken({
-    username: configured.username,
+    username: account.username,
     secret: configured.secret,
     maxAgeSeconds: SESSION_MAX_AGE_SECONDS,
   });

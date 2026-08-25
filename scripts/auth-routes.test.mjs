@@ -10,6 +10,8 @@ import { proxy } from "../src/proxy.ts";
 const config = {
   APP_USERNAME: "leon",
   APP_PASSWORD: "Richtig!123",
+  DEMO_USERNAME: "demo",
+  DEMO_PASSWORD: "Demo!123",
   SESSION_SECRET: "test-secret-with-at-least-thirty-two-characters",
 };
 
@@ -58,20 +60,22 @@ test("redirects protected pages to login while leaving the login page public", a
   });
 });
 
-test("accepts a valid signed cookie and rejects a session for another user", async () => {
+test("accepts valid signed cookies for both configured accounts", async () => {
   await withAuthEnvironment(async () => {
-    const validToken = await createSessionToken({
-      username: "leon",
-      secret: config.SESSION_SECRET,
-      maxAgeSeconds: 60,
-    });
-    const validRequest = new NextRequest("https://koelsch.example/az", {
-      headers: { cookie: `koelsch_session=${validToken}` },
-    });
-    assert.equal(
-      (await proxy(validRequest)).headers.get("x-middleware-next"),
-      "1",
-    );
+    for (const username of ["leon", "demo"]) {
+      const validToken = await createSessionToken({
+        username,
+        secret: config.SESSION_SECRET,
+        maxAgeSeconds: 60,
+      });
+      const validRequest = new NextRequest("https://koelsch.example/az", {
+        headers: { cookie: `koelsch_session=${validToken}` },
+      });
+      assert.equal(
+        (await proxy(validRequest)).headers.get("x-middleware-next"),
+        "1",
+      );
+    }
 
     const otherToken = await createSessionToken({
       username: "other",
@@ -105,6 +109,23 @@ test("login POST sets the session cookie and redirects to a safe local path", as
     assert.match(cookie, /HttpOnly/i);
     assert.match(cookie, /SameSite=lax/i);
     assert.match(cookie, /Path=\//i);
+  });
+});
+
+test("login POST also accepts the read-only demo account", async () => {
+  await withAuthEnvironment(async () => {
+    const response = await createSession(
+      formRequest({ username: "demo", password: "Demo!123", next: "/az" }),
+    );
+    assert.equal(response.status, 303);
+    const cookie = response.headers.get("set-cookie") ?? "";
+    assert.match(cookie, /koelsch_session=/);
+
+    const token = decodeURIComponent(cookie.match(/koelsch_session=([^;]+)/)?.[1] ?? "");
+    const request = new NextRequest("https://koelsch.example/az", {
+      headers: { cookie: `koelsch_session=${token}` },
+    });
+    assert.equal((await proxy(request)).headers.get("x-middleware-next"), "1");
   });
 });
 

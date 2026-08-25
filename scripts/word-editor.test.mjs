@@ -10,6 +10,7 @@ import {
 test("accepts only Leon as the default editor", () => {
   assert.equal(isEditorUsername("leon"), true);
   assert.equal(isEditorUsername("Leon"), true);
+  assert.equal(isEditorUsername("demo"), false);
   assert.equal(isEditorUsername("emma"), false);
   assert.equal(isEditorUsername(null), false);
 });

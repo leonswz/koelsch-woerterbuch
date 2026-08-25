@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server.js";
 
+import { accountIsConfigured, authEnvironment } from "./lib/auth-config.ts";
 import {
   SESSION_COOKIE,
   verifySessionToken,
@@ -13,12 +14,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const secret = process.env.SESSION_SECRET ?? "";
-  const username = process.env.APP_USERNAME ?? "";
+  const configured = authEnvironment();
   const token = request.cookies.get(SESSION_COOKIE)?.value;
-  const session = await verifySessionToken(token, secret);
+  const session = await verifySessionToken(token, configured?.secret ?? "");
 
-  if (session?.username === username && username) return NextResponse.next();
+  if (
+    configured &&
+    session &&
+    accountIsConfigured(session.username, configured.accounts)
+  ) {
+    return NextResponse.next();
+  }
 
   const loginUrl = new URL("/login", request.url);
   loginUrl.searchParams.set("next", `${pathname}${search}`);
