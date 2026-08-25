@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getEditorSession } from "@/lib/editor-session";
+import { splitWordMeanings } from "@/lib/word-meanings";
 import { buildWordExplanation } from "@/lib/word-relations";
 import { getRelatedWords, getWordBySlug } from "@/lib/words";
 
@@ -21,6 +22,7 @@ export default async function WortPage({
     getEditorSession(),
   ]);
   const explanation = buildWordExplanation(word);
+  const meanings = splitWordMeanings(word.translation);
 
   return (
     <div className="grid gap-6">
@@ -54,11 +56,29 @@ export default async function WortPage({
         <div className="grid gap-7 px-6 py-7 sm:px-8">
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-              Hochdeutsch
+              {meanings.length > 1 ? "Bedeutungen & Formen" : "Hochdeutsch"}
             </h2>
-            <p className="mt-2 font-koelsch text-2xl font-semibold leading-snug text-ink">
-              {word.translation}
-            </p>
+            {meanings.length > 1 ? (
+              <ol className="mt-3 grid gap-2">
+                {meanings.map((meaning, index) => (
+                  <li
+                    key={`${meaning}-${index}`}
+                    className="flex items-start gap-3 rounded-[var(--radius-control)] bg-paper-soft px-4 py-3"
+                  >
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-koelsch-soft text-xs font-semibold text-koelsch-deep">
+                      {index + 1}
+                    </span>
+                    <span className="font-koelsch text-xl font-semibold leading-snug text-ink">
+                      {meaning}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="mt-2 font-koelsch text-2xl font-semibold leading-snug text-ink">
+                {word.translation}
+              </p>
+            )}
           </section>
 
           {explanation ? (

@@ -1,3 +1,5 @@
+import { splitWordMeanings } from "./word-meanings.ts";
+
 export type TranslationDirection = "de-koelsch" | "koelsch-de";
 
 export type TranslationWord = {
@@ -28,10 +30,7 @@ function normalize(value: string) {
 
 function sourceForms(word: TranslationWord, direction: TranslationDirection) {
   if (direction === "koelsch-de") return [word.koelsch, ...word.aliases];
-  return [
-    word.translation,
-    ...word.translation.split(/[,;/]/).map((part) => part.trim()),
-  ];
+  return [word.translation, ...splitWordMeanings(word.translation)];
 }
 
 function dictionaryMap(words: TranslationWord[], direction: TranslationDirection) {

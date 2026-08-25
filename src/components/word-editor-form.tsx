@@ -55,15 +55,18 @@ export function WordEditorForm({
           />
         </label>
         <label className="text-sm font-medium text-ink">
-          Hochdeutsche Übersetzung <span className="text-koelsch">*</span>
+          Hochdeutsche Bedeutung(en) <span className="text-koelsch">*</span>
           <input
             name="translation"
             required
             maxLength={500}
             defaultValue={word?.translation}
-            placeholder="z. B. Köln"
+            placeholder="z. B. Kohl; Unsinn"
             className={fieldClass}
           />
+          <span className="mt-2 block text-xs font-normal leading-relaxed text-ink-faint">
+            Mehrere Bedeutungen mit Semikolon trennen. Sie erscheinen einzeln auf der Wortseite.
+          </span>
         </label>
       </div>
 
