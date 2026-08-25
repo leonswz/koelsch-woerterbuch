@@ -1,15 +1,15 @@
 import { Prisma } from "@prisma/client";
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server.js";
 
 import { SESSION_COOKIE } from "@/lib/auth-session";
 import { editorFromToken } from "@/lib/editor-session";
+import { relativeRedirect } from "@/lib/http-redirect";
 import { prisma } from "@/lib/prisma";
 import { slugifyWord } from "@/lib/word-editor";
 
 function back(request: NextRequest, key: "saved" | "error", value: string) {
-  const url = new URL("/redaktion/inhalte", request.url);
-  url.searchParams.set(key, value);
-  return NextResponse.redirect(url, 303);
+  void request;
+  return relativeRedirect("/redaktion/inhalte", { [key]: value });
 }
 
 function text(form: FormData, key: string) {

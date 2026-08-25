@@ -1,8 +1,9 @@
 import { Prisma } from "@prisma/client";
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server.js";
 
 import { SESSION_COOKIE } from "@/lib/auth-session";
 import { editorFromToken } from "@/lib/editor-session";
+import { relativeRedirect } from "@/lib/http-redirect";
 import { prisma } from "@/lib/prisma";
 import { parseWordEditorInput, slugifyWord } from "@/lib/word-editor";
 
@@ -44,9 +45,8 @@ function formValues(form: FormData) {
 }
 
 function formRedirect(request: NextRequest, path: string, message?: string) {
-  const url = new URL(path, request.url);
-  if (message) url.searchParams.set("error", message);
-  return NextResponse.redirect(url, 303);
+  void request;
+  return relativeRedirect(path, { error: message });
 }
 
 async function availableSlug(koelsch: string) {
