@@ -8,28 +8,69 @@ datasource db {
 }
 
 model Word {
-  id                 Int      @id @default(autoincrement())
-  koelsch            String   @unique
-  slug               String   @unique
+  id                 Int           @id @default(autoincrement())
+  koelsch            String        @unique
+  slug               String        @unique
   phonetic           String?
   translation        String
   example            String?
   exampleTranslation String?
-  category           String   @default("allgemein")
-  aliases            String[] @default([])
+  category           String        @default("allgemein")
+  aliases            String[]      @default([])
   partOfSpeech       String?
   notes              String?
-  reviewStatus       String   @default("pending")
+  reviewStatus       String        @default("pending")
   source             String?
   sourceUrl          String?
   sourceLicense      String?
-  uncertain          Boolean  @default(false)
+  uncertain          Boolean       @default(false)
   sources            Json?
   importedAt         DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  meanings           WordMeaning[]
+  variants           WordVariant[]
 
   @@index([reviewStatus])
+}
+
+model WordMeaning {
+  id                 Int      @id @default(autoincrement())
+  wordId             Int
+  position           Int
+  translation        String
+  definition         String?
+  partOfSpeech       String?
+  register           String?
+  example            String?
+  exampleTranslation String?
+  reviewStatus       String   @default("pending")
+  source             String?
+  sourceUrl          String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  word               Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([wordId, position])
+  @@index([translation])
+}
+
+model WordVariant {
+  id           Int      @id @default(autoincrement())
+  wordId       Int
+  position     Int
+  spelling     String
+  label        String?
+  region       String?
+  reviewStatus String   @default("pending")
+  source       String?
+  sourceUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  word         Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([wordId, spelling])
+  @@index([spelling])
 }
 
 model Song {

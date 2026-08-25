@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+import {
+  WordStructureFields,
+  type EditableMeaning,
+  type EditableVariant,
+} from "@/components/word-structure-fields";
+
 export type EditableWord = {
   id: number;
   koelsch: string;
@@ -13,6 +19,8 @@ export type EditableWord = {
   exampleTranslation: string | null;
   reviewStatus: string;
   slug: string;
+  meanings: EditableMeaning[];
+  variants: EditableVariant[];
 };
 
 const fieldClass =
@@ -25,11 +33,27 @@ export function WordEditorForm({
   word?: EditableWord;
   error?: string;
 }) {
+  const meanings = word?.meanings.length
+    ? word.meanings
+    : [
+        {
+          translation: word?.translation ?? "",
+          definition: null,
+          partOfSpeech: word?.partOfSpeech ?? null,
+          register: null,
+          example: word?.example ?? null,
+          exampleTranslation: word?.exampleTranslation ?? null,
+        },
+      ];
+  const variants = word?.variants.length
+    ? word.variants
+    : (word?.aliases ?? []).map((spelling) => ({ spelling, label: null, region: null }));
+
   return (
     <form
       action="/api/redaktion/woerter"
       method="post"
-      className="grid gap-6 rounded-[var(--radius-card)] border border-line bg-card p-5 shadow-sm sm:p-7"
+      className="grid gap-7 rounded-[var(--radius-card)] border border-line bg-card p-5 shadow-sm sm:p-7"
     >
       {word ? <input type="hidden" name="id" value={word.id} /> : null}
 
@@ -50,79 +74,46 @@ export function WordEditorForm({
             required
             maxLength={120}
             defaultValue={word?.koelsch}
-            placeholder="z. B. Kölle"
+            placeholder="z. B. Kappes"
             className={fieldClass}
           />
         </label>
-        <label className="text-sm font-medium text-ink">
-          Hochdeutsche Bedeutung(en) <span className="text-koelsch">*</span>
-          <input
-            name="translation"
-            required
-            maxLength={500}
-            defaultValue={word?.translation}
-            placeholder="z. B. Kohl; Unsinn"
-            className={fieldClass}
-          />
-          <span className="mt-2 block text-xs font-normal leading-relaxed text-ink-faint">
-            Mehrere Bedeutungen mit Semikolon trennen. Sie erscheinen einzeln auf der Wortseite.
-          </span>
-        </label>
-      </div>
-
-      <label className="text-sm font-medium text-ink">
-        Erklärung <span className="font-normal text-ink-faint">optional</span>
-        <textarea
-          name="notes"
-          maxLength={2000}
-          rows={5}
-          defaultValue={word?.notes ?? ""}
-          placeholder="Nur ergänzen, wenn Übersetzung allein nicht ausreicht: Bedeutung, Verwendung oder kultureller Kontext."
-          className={fieldClass}
-        />
-        <span className="mt-2 block text-xs leading-relaxed text-ink-faint">
-          Bleibt das Feld leer, erscheint auf der Wortseite kein Erklärungskasten.
-        </span>
-      </label>
-
-      <div className="grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-medium text-ink">
           Aussprache
           <input
             name="phonetic"
             maxLength={120}
             defaultValue={word?.phonetic ?? ""}
-            placeholder="z. B. ˈkœlə"
-            className={fieldClass}
-          />
-        </label>
-        <label className="text-sm font-medium text-ink">
-          Weitere Schreibweisen
-          <input
-            name="aliases"
-            defaultValue={word?.aliases.join(", ") ?? ""}
-            placeholder="Mit Komma trennen"
+            placeholder="z. B. ˈkapəs"
             className={fieldClass}
           />
         </label>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-3">
+      <WordStructureFields meanings={meanings} variants={variants} />
+
+      <label className="border-t border-line pt-6 text-sm font-medium text-ink">
+        Allgemeine Einordnung <span className="font-normal text-ink-faint">optional</span>
+        <textarea
+          name="notes"
+          maxLength={2000}
+          rows={4}
+          defaultValue={word?.notes ?? ""}
+          placeholder="Etymologie, kultureller Kontext oder ein Hinweis, der für den ganzen Begriff gilt."
+          className={fieldClass}
+        />
+        <span className="mt-2 block text-xs font-normal leading-relaxed text-ink-faint">
+          Eine Erklärung, die nur zu einer einzelnen Bedeutung gehört, kommt direkt in deren Karte.
+        </span>
+      </label>
+
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-medium text-ink">
           Kategorie
           <input
             name="category"
             defaultValue={word?.category ?? "allgemein"}
             placeholder="allgemein"
-            className={fieldClass}
-          />
-        </label>
-        <label className="text-sm font-medium text-ink">
-          Wortart
-          <input
-            name="partOfSpeech"
-            defaultValue={word?.partOfSpeech ?? ""}
-            placeholder="z. B. Substantiv"
             className={fieldClass}
           />
         </label>
@@ -136,29 +127,6 @@ export function WordEditorForm({
             <option value="draft">Entwurf</option>
             <option value="published">Veröffentlicht</option>
           </select>
-        </label>
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm font-medium text-ink">
-          Beispielsatz auf Kölsch
-          <textarea
-            name="example"
-            rows={3}
-            defaultValue={word?.example ?? ""}
-            placeholder="Dat es Kölle."
-            className={fieldClass}
-          />
-        </label>
-        <label className="text-sm font-medium text-ink">
-          Beispiel auf Hochdeutsch
-          <textarea
-            name="exampleTranslation"
-            rows={3}
-            defaultValue={word?.exampleTranslation ?? ""}
-            placeholder="Das ist Köln."
-            className={fieldClass}
-          />
         </label>
       </div>
 

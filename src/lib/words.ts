@@ -107,7 +107,13 @@ export async function suggestWords(query: string) {
 }
 
 export function getWordBySlug(slug: string) {
-  return prisma.word.findUnique({ where: { slug } });
+  return prisma.word.findUnique({
+    where: { slug },
+    include: {
+      meanings: { orderBy: { position: "asc" } },
+      variants: { orderBy: { position: "asc" } },
+    },
+  });
 }
 
 export async function getRelatedWords(word: WordRelationSource, limit = 6) {

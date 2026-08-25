@@ -22,7 +22,25 @@ export default async function WortPage({
     getEditorSession(),
   ]);
   const explanation = buildWordExplanation(word);
-  const meanings = splitWordMeanings(word.translation);
+  const meanings = word.meanings.length
+    ? word.meanings
+    : splitWordMeanings(word.translation).map((translation, position) => ({
+        id: -position - 1,
+        translation,
+        definition: null,
+        partOfSpeech: position === 0 ? word.partOfSpeech : null,
+        register: null,
+        example: position === 0 ? word.example : null,
+        exampleTranslation: position === 0 ? word.exampleTranslation : null,
+      }));
+  const variants = word.variants.length
+    ? word.variants
+    : word.aliases.map((spelling, position) => ({
+        id: -position - 1,
+        spelling,
+        label: null,
+        region: null,
+      }));
 
   return (
     <div className="grid gap-6">
@@ -56,29 +74,56 @@ export default async function WortPage({
         <div className="grid gap-7 px-6 py-7 sm:px-8">
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-              {meanings.length > 1 ? "Bedeutungen & Formen" : "Hochdeutsch"}
+              {meanings.length > 1 ? `${meanings.length} Bedeutungen` : "Bedeutung"}
             </h2>
-            {meanings.length > 1 ? (
-              <ol className="mt-3 grid gap-2">
-                {meanings.map((meaning, index) => (
-                  <li
-                    key={`${meaning}-${index}`}
-                    className="flex items-start gap-3 rounded-[var(--radius-control)] bg-paper-soft px-4 py-3"
-                  >
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-koelsch-soft text-xs font-semibold text-koelsch-deep">
-                      {index + 1}
-                    </span>
-                    <span className="font-koelsch text-xl font-semibold leading-snug text-ink">
-                      {meaning}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="mt-2 font-koelsch text-2xl font-semibold leading-snug text-ink">
-                {word.translation}
-              </p>
-            )}
+            <ol className="mt-3 grid gap-3">
+              {meanings.map((meaning, index) => (
+                <li
+                  key={meaning.id}
+                  className="rounded-[var(--radius-control)] border border-line bg-paper-soft/65 px-4 py-4 sm:px-5"
+                >
+                  <div className="flex items-start gap-3">
+                    {meanings.length > 1 ? (
+                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-koelsch-soft text-xs font-semibold text-koelsch-deep">
+                        {index + 1}
+                      </span>
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      <p className="font-koelsch text-2xl font-semibold leading-snug text-ink">
+                        {meaning.translation}
+                      </p>
+                      {meaning.partOfSpeech || meaning.register ? (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {meaning.partOfSpeech ? (
+                            <span className="rounded-full border border-line bg-card px-2.5 py-1 text-xs text-ink-soft">
+                              {meaning.partOfSpeech}
+                            </span>
+                          ) : null}
+                          {meaning.register ? (
+                            <span className="rounded-full bg-koelsch-soft px-2.5 py-1 text-xs text-koelsch-deep">
+                              {meaning.register}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
+                      {meaning.definition ? (
+                        <p className="mt-3 leading-7 text-ink-soft">{meaning.definition}</p>
+                      ) : null}
+                      {meaning.example ? (
+                        <div className="mt-4 border-l-2 border-koelsch/30 pl-4">
+                          <p className="font-koelsch text-lg text-ink">{meaning.example}</p>
+                          {meaning.exampleTranslation ? (
+                            <p className="mt-1 text-sm text-ink-soft">
+                              {meaning.exampleTranslation}
+                            </p>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </section>
 
           {explanation ? (
@@ -90,26 +135,26 @@ export default async function WortPage({
             </section>
           ) : null}
 
-          {word.aliases.length ? (
+          {variants.length ? (
             <section>
               <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-                Weitere Schreibweisen
+                Schreibvarianten
               </h2>
-              <p className="mt-2 text-ink-soft">{word.aliases.join(", ")}</p>
-            </section>
-          ) : null}
-
-          {word.example ? (
-            <section className="rounded-[var(--radius-control)] bg-paper-soft px-5 py-4">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-                Beispiel
-              </h2>
-              <p className="mt-2 font-koelsch text-lg text-ink">{word.example}</p>
-              {word.exampleTranslation ? (
-                <p className="mt-1 text-sm text-ink-soft">
-                  {word.exampleTranslation}
-                </p>
-              ) : null}
+              <div className="mt-3 flex flex-wrap gap-2">
+                {variants.map((variant) => (
+                  <span
+                    key={variant.id}
+                    className="rounded-[var(--radius-control)] border border-line bg-card px-3 py-2 text-sm text-ink"
+                  >
+                    <span className="font-koelsch font-semibold">{variant.spelling}</span>
+                    {variant.label || variant.region ? (
+                      <span className="ml-2 text-xs text-ink-faint">
+                        {[variant.label, variant.region].filter(Boolean).join(" · ")}
+                      </span>
+                    ) : null}
+                  </span>
+                ))}
+              </div>
             </section>
           ) : null}
         </div>

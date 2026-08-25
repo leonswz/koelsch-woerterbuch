@@ -32,6 +32,15 @@ test("parses and normalizes a complete editorial word form", () => {
     example: " Dat es Kölle. ",
     exampleTranslation: " Das ist Köln. ",
     reviewStatus: "published",
+    meaningTranslation: ["Köln"],
+    meaningDefinition: ["Stadt am Rhein"],
+    meaningPartOfSpeech: ["Eigenname"],
+    meaningRegister: ["neutral"],
+    meaningExample: ["Ich ben en Kölle."],
+    meaningExampleTranslation: ["Ich bin in Köln."],
+    variantSpelling: ["Cölle", "Coelle", "Kölle"],
+    variantLabel: ["historisch", "alternative Schreibweise", "wie Lemma"],
+    variantRegion: ["", "", ""],
   });
 
   assert.deepEqual(result, {
@@ -40,13 +49,27 @@ test("parses and normalizes a complete editorial word form", () => {
       koelsch: "Kölle",
       translation: "Köln",
       notes: "Die liebevolle kölsche Bezeichnung für Köln.",
-      aliases: ["Cölle", "Coelle", "Kölle"],
+      aliases: ["Cölle", "Coelle"],
       phonetic: "ˈkœlə",
       category: "ort",
-      partOfSpeech: "Substantiv",
-      example: "Dat es Kölle.",
-      exampleTranslation: "Das ist Köln.",
+      partOfSpeech: "Eigenname",
+      example: "Ich ben en Kölle.",
+      exampleTranslation: "Ich bin in Köln.",
       reviewStatus: "published",
+      meanings: [
+        {
+          translation: "Köln",
+          definition: "Stadt am Rhein",
+          partOfSpeech: "Eigenname",
+          register: "neutral",
+          example: "Ich ben en Kölle.",
+          exampleTranslation: "Ich bin in Köln.",
+        },
+      ],
+      variants: [
+        { spelling: "Cölle", label: "historisch", region: null },
+        { spelling: "Coelle", label: "alternative Schreibweise", region: null },
+      ],
     },
   });
 });
@@ -68,4 +91,37 @@ test("rejects overly long editorial explanations", () => {
     ok: false,
     error: "Die Erklärung darf höchstens 2.000 Zeichen lang sein.",
   });
+});
+
+test("keeps multiple meanings ordered and derives the legacy translation", () => {
+  const result = parseWordEditorInput({
+    koelsch: "Kappes",
+    translation: "wird durch Bedeutungen ersetzt",
+    meaningTranslation: ["Kohl", "Unsinn"],
+    meaningDefinition: ["Gemüse", "etwas Sinnloses"],
+    meaningPartOfSpeech: ["Substantiv", "Substantiv"],
+    meaningRegister: ["neutral", "umgangssprachlich"],
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.data.translation, "Kohl; Unsinn");
+  assert.deepEqual(result.data.meanings.map((meaning) => meaning.translation), [
+    "Kohl",
+    "Unsinn",
+  ]);
+});
+
+test("rejects an empty structured meaning", () => {
+  assert.deepEqual(
+    parseWordEditorInput({
+      koelsch: "Kappes",
+      translation: "Kohl",
+      meaningTranslation: ["Kohl", ""],
+      meaningDefinition: ["", "darf nicht ohne Bedeutung gespeichert werden"],
+    }),
+    {
+      ok: false,
+      error: "Jede ausgefüllte Bedeutung braucht eine hochdeutsche Übersetzung.",
+    },
+  );
 });

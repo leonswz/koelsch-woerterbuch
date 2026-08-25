@@ -18,7 +18,13 @@ export default async function BegriffBearbeitenPage({
   const [{ id }, { error }] = await Promise.all([params, searchParams]);
   const numericId = Number(id);
   if (!Number.isInteger(numericId) || numericId < 1) notFound();
-  const word = await prisma.word.findUnique({ where: { id: numericId } });
+  const word = await prisma.word.findUnique({
+    where: { id: numericId },
+    include: {
+      meanings: { orderBy: { position: "asc" } },
+      variants: { orderBy: { position: "asc" } },
+    },
+  });
   if (!word) notFound();
 
   return (
