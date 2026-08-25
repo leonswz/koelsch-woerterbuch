@@ -158,7 +158,7 @@ export function KoelschSearch({
           id={listboxId}
           role="listbox"
           aria-label="Suchvorschläge"
-          className="absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-[var(--radius-card)] border border-line bg-card text-left shadow-[0_20px_50px_rgba(63,45,32,0.16)]"
+          className="absolute inset-x-0 top-full z-50 mt-2 max-h-[60dvh] overflow-y-auto overscroll-contain rounded-[var(--radius-card)] border border-line bg-card text-left shadow-[0_20px_50px_rgba(63,45,32,0.16)] sm:max-h-[32rem]"
         >
           {trimmedQuery.length < 2 ? (
             <div className="p-3">
