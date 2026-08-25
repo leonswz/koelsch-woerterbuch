@@ -16,6 +16,12 @@ export type TranslationMatch = {
   slug: string;
 };
 
+export type TranslationResult = {
+  text: string;
+  matches: TranslationMatch[];
+  unmatchedWords: number;
+};
+
 type Candidate = { target: string; slug: string };
 type Token = { raw: string; word: boolean };
 
