@@ -52,13 +52,21 @@ export default async function RedaktionPage({
             ergänzen, wo sie wirklich helfen.
           </p>
         </div>
-        <Link
-          href="/redaktion/woerter/neu"
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--radius-control)] bg-koelsch px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-koelsch-deep"
-        >
-          <Plus className="size-4" />
-          Neuer Begriff
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/redaktion/inhalte"
+            className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-line bg-card px-5 py-3 text-sm font-semibold text-ink-soft shadow-sm hover:border-koelsch/30 hover:text-koelsch"
+          >
+            Sprichwörter & Lieder
+          </Link>
+          <Link
+            href="/redaktion/woerter/neu"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--radius-control)] bg-koelsch px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-koelsch-deep"
+          >
+            <Plus className="size-4" />
+            Neuer Begriff
+          </Link>
+        </div>
       </header>
 
       <form className="relative" role="search">

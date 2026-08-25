@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   BookOpenText,
   House,
+  Languages,
   ListTree,
   LogOut,
   Menu,
@@ -33,6 +34,12 @@ const publicLinks = [
     label: "Start",
     description: "Suchen und schnell fündig werden",
     icon: House,
+  },
+  {
+    href: "/uebersetzer",
+    label: "Übersetzer",
+    description: "Deutsch und Kölsch verlässlich übertragen",
+    icon: Languages,
   },
   {
     href: "/az",
@@ -75,11 +82,11 @@ export function Nav({ showEditor = false }: { showEditor?: boolean }) {
         <Link
           href="/"
           className="group flex items-center gap-2.5 text-ink sm:gap-3"
-          aria-label="Kölsch Wörterbuch – Startseite"
+          aria-label="Kölsch Übersetzer – Startseite"
         >
           <BrandMark className="size-9 shrink-0 shadow-sm transition-transform group-hover:-rotate-3" />
           <span className="font-koelsch text-lg font-semibold tracking-tight sm:text-xl">
-            Kölsch Wörterbuch
+            Kölsch Übersetzer
           </span>
         </Link>
 

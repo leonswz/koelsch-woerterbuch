@@ -5,11 +5,11 @@ import { getEditorSession } from "@/lib/editor-session";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kölsch Wörterbuch",
-    template: "%s · Kölsch Wörterbuch",
+    default: "Kölsch Übersetzer",
+    template: "%s · Kölsch Übersetzer",
   },
   description:
-    "Das Kölsch Wörterbuch: Wörter, Lieder und Sprichwörter aus Köln – nachschlagen, verstehen, weitersagen.",
+    "Deutsch und Kölsch kuratiert übersetzen und verstehen – mit Wörtern, Liedern und Sprichwörtern aus Köln.",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <footer className="border-t border-line py-8 text-center text-sm text-ink-faint">
-          <p>Kölsch Wörterbuch · Et Hätz schleiht in Kölle</p>
+          <p>Kölsch Übersetzer · Et Hätz schleiht in Kölle</p>
           <p className="mt-2 text-xs">
             Köbes-Skulptur: {" "}
             <a

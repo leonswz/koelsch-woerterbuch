@@ -37,16 +37,25 @@ export default async function Home() {
       <section className="grid items-center gap-8 pt-6 sm:grid-cols-[1fr_auto]">
         <div className="text-center sm:text-left">
           <p className="mb-3 text-sm font-medium tracking-wide text-koelsch">
-            Et Kölsch Wörterbuch
+            Kölsch übersetzen & verstehen
           </p>
           <h1 className="font-koelsch text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
             Wat heißt dat op Kölsch?
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-ink-soft sm:mx-0">
-            Wörter, Lieder und Sprichwörter aus Köln – ruhig nachschlagen,
-            verstehen und weitersagen.
+            Ganze Ausdrücke übersetzen, einzelne Wörter nachschlagen und mit
+            Erklärungen, Liedern und Sprichwörtern wirklich verstehen.
           </p>
-          <div className="mx-auto mt-8 max-w-xl sm:mx-0">
+          <div className="mx-auto mt-7 flex max-w-xl flex-col gap-3 sm:mx-0 sm:flex-row">
+            <Link
+              href="/uebersetzer"
+              className="rounded-[var(--radius-control)] bg-koelsch px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-koelsch-deep"
+            >
+              Zum Übersetzer
+            </Link>
+            <span className="self-center text-xs text-ink-faint">oder direkt ein Wort suchen:</span>
+          </div>
+          <div className="mx-auto mt-4 max-w-xl sm:mx-0">
             <KoelschSearch autoFocus />
           </div>
         </div>
