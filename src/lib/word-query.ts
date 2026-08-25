@@ -26,18 +26,36 @@ export type WordSuggestion = {
   koelsch: string;
   slug: string;
   translation: string;
+  meanings?: Array<{ translation: string }>;
+  variants?: Array<{ spelling: string }>;
 };
+
+function normalizedValues(values: string[]) {
+  return values.map((value) => value.toLocaleLowerCase("de-DE"));
+}
+
+function any(values: string[], predicate: (value: string) => boolean) {
+  return values.some(predicate);
+}
 
 function suggestionScore(word: WordSuggestion, query: string) {
   const koelsch = word.koelsch.toLocaleLowerCase("de-DE");
-  const translation = word.translation.toLocaleLowerCase("de-DE");
+  const variants = normalizedValues(word.variants?.map((variant) => variant.spelling) ?? []);
+  const meanings = normalizedValues([
+    word.translation,
+    ...(word.meanings?.map((meaning) => meaning.translation) ?? []),
+  ]);
+
   if (koelsch === query) return 0;
-  if (koelsch.startsWith(query)) return 1;
-  if (translation === query) return 2;
-  if (translation.startsWith(query)) return 3;
-  if (koelsch.includes(query)) return 4;
-  if (translation.includes(query)) return 5;
-  return 6;
+  if (any(variants, (value) => value === query)) return 1;
+  if (koelsch.startsWith(query)) return 2;
+  if (any(variants, (value) => value.startsWith(query))) return 3;
+  if (any(meanings, (value) => value === query)) return 4;
+  if (any(meanings, (value) => value.startsWith(query))) return 5;
+  if (koelsch.includes(query)) return 6;
+  if (any(variants, (value) => value.includes(query))) return 7;
+  if (any(meanings, (value) => value.includes(query))) return 8;
+  return Number.POSITIVE_INFINITY;
 }
 
 export function rankWordSuggestions(
@@ -50,6 +68,7 @@ export function rankWordSuggestions(
 
   const seen = new Set<string>();
   return [...words]
+    .filter((word) => Number.isFinite(suggestionScore(word, query)))
     .sort((left, right) => {
       const scoreDifference =
         suggestionScore(left, query) - suggestionScore(right, query);

@@ -24,7 +24,16 @@ export async function POST(request: NextRequest) {
       koelsch: true,
       translation: true,
       aliases: true,
+      meanings: {
+        orderBy: { position: "asc" },
+        select: { translation: true },
+      },
+      variants: {
+        orderBy: { position: "asc" },
+        select: { spelling: true },
+      },
     },
+    orderBy: { id: "asc" },
   });
   const result = translateCuratedText(parsed.text, words, parsed.direction);
 

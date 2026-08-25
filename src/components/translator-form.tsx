@@ -26,6 +26,8 @@ export function TranslatorForm({
   const [error, setError] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const ambiguousMatches =
+    result?.matches.filter((match) => match.alternatives?.length) ?? [];
 
   async function translate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -174,6 +176,22 @@ export function TranslatorForm({
                   </Link>
                 ))}
               </div>
+            </div>
+          ) : null}
+
+          {ambiguousMatches.length ? (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-950">
+              <p className="text-xs font-semibold uppercase tracking-wider">
+                Mehrere Möglichkeiten
+              </p>
+              <ul className="mt-2 grid gap-2 text-sm leading-6">
+                {ambiguousMatches.map((match, index) => (
+                  <li key={`${match.slug}-alternatives-${index}`}>
+                    <span className="font-semibold">{match.source}:</span>{" "}
+                    {[match.target, ...(match.alternatives ?? [])].join(" · ")}
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : null}
 

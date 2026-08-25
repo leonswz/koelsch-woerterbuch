@@ -24,7 +24,16 @@ export default async function UebersetzerPage({ searchParams }: TranslatorPagePr
           koelsch: true,
           translation: true,
           aliases: true,
+          meanings: {
+            orderBy: { position: "asc" },
+            select: { translation: true },
+          },
+          variants: {
+            orderBy: { position: "asc" },
+            select: { spelling: true },
+          },
         },
+        orderBy: { id: "asc" },
       })
     : [];
   const initialResult = initialText.trim()

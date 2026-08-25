@@ -8,6 +8,15 @@ const words = [
   { id: 2, slug: "morje", koelsch: "Morje", translation: "Morgen", aliases: [] },
   { id: 3, slug: "koelle", koelsch: "Kölle", translation: "Köln, Stadt am Rhein", aliases: ["Cölle"] },
   { id: 4, slug: "hueck", koelsch: "hück", translation: "heute", aliases: [] },
+  {
+    id: 5,
+    slug: "kappes",
+    koelsch: "Kappes",
+    translation: "Kohl; Unsinn",
+    aliases: ["Kapes"],
+    meanings: [{ translation: "Kohl" }, { translation: "Unsinn" }],
+    variants: [{ spelling: "Kapes" }],
+  },
 ];
 
 test("translates the longest curated German phrase and keeps punctuation", () => {
@@ -29,4 +38,20 @@ test("keeps unknown words visible instead of inventing a translation", () => {
 
 test("translates Kölsch and alternative spellings back to German", () => {
   assert.equal(translateCuratedText("Cölle hück", words, "koelsch-de").text, "Köln, Stadt am Rhein heute");
+});
+
+test("keeps structured meanings searchable and exposes ambiguity", () => {
+  assert.deepEqual(translateCuratedText("Kapes", words, "koelsch-de"), {
+    text: "Kohl",
+    matches: [
+      {
+        source: "Kapes",
+        target: "Kohl",
+        slug: "kappes",
+        alternatives: ["Unsinn"],
+      },
+    ],
+    unmatchedWords: 0,
+  });
+  assert.equal(translateCuratedText("Unsinn", words, "de-koelsch").text, "Kappes");
 });

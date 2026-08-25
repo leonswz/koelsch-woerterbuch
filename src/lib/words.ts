@@ -43,6 +43,21 @@ export async function searchWords(query: string) {
     OR: [
       { koelsch: { contains: query, mode: "insensitive" as const } },
       { translation: { contains: query, mode: "insensitive" as const } },
+      {
+        meanings: {
+          some: {
+            OR: [
+              { translation: { contains: query, mode: "insensitive" as const } },
+              { definition: { contains: query, mode: "insensitive" as const } },
+            ],
+          },
+        },
+      },
+      {
+        variants: {
+          some: { spelling: { contains: query, mode: "insensitive" as const } },
+        },
+      },
     ],
   };
   const [total, words] = await prisma.$transaction([
@@ -66,13 +81,22 @@ export async function suggestWords(query: string) {
     koelsch: true,
     slug: true,
     translation: true,
+    meanings: { select: { translation: true } },
+    variants: { select: { spelling: true } },
   } as const;
   const orderBy = [{ koelsch: "asc" as const }, { id: "asc" as const }];
   const [koelschStarts, translationStarts, partialMatches] =
     await prisma.$transaction([
       prisma.word.findMany({
         where: {
-          koelsch: { startsWith: value, mode: "insensitive" },
+          OR: [
+            { koelsch: { startsWith: value, mode: "insensitive" } },
+            {
+              variants: {
+                some: { spelling: { startsWith: value, mode: "insensitive" } },
+              },
+            },
+          ],
         },
         orderBy,
         select,
@@ -80,7 +104,14 @@ export async function suggestWords(query: string) {
       }),
       prisma.word.findMany({
         where: {
-          translation: { startsWith: value, mode: "insensitive" },
+          OR: [
+            { translation: { startsWith: value, mode: "insensitive" } },
+            {
+              meanings: {
+                some: { translation: { startsWith: value, mode: "insensitive" } },
+              },
+            },
+          ],
         },
         orderBy,
         select,
@@ -91,6 +122,21 @@ export async function suggestWords(query: string) {
           OR: [
             { koelsch: { contains: value, mode: "insensitive" } },
             { translation: { contains: value, mode: "insensitive" } },
+            {
+              meanings: {
+                some: {
+                  OR: [
+                    { translation: { contains: value, mode: "insensitive" } },
+                    { definition: { contains: value, mode: "insensitive" } },
+                  ],
+                },
+              },
+            },
+            {
+              variants: {
+                some: { spelling: { contains: value, mode: "insensitive" } },
+              },
+            },
           ],
         },
         orderBy,
@@ -103,7 +149,7 @@ export async function suggestWords(query: string) {
     [...koelschStarts, ...translationStarts, ...partialMatches],
     value,
     SUGGESTION_LIMIT,
-  );
+  ).map(({ id, koelsch, slug, translation }) => ({ id, koelsch, slug, translation }));
 }
 
 export function getWordBySlug(slug: string) {

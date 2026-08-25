@@ -8,12 +8,15 @@ export type TranslationWord = {
   koelsch: string;
   translation: string;
   aliases: string[];
+  meanings?: Array<{ translation: string }>;
+  variants?: Array<{ spelling: string }>;
 };
 
 export type TranslationMatch = {
   source: string;
   target: string;
   slug: string;
+  alternatives?: string[];
 };
 
 export type TranslationResult = {
@@ -22,7 +25,7 @@ export type TranslationResult = {
   unmatchedWords: number;
 };
 
-type Candidate = { target: string; slug: string };
+type Candidate = { target: string; slug: string; alternatives: string[] };
 type Token = { raw: string; word: boolean };
 
 function normalize(value: string) {
@@ -34,20 +37,56 @@ function normalize(value: string) {
     .trim();
 }
 
+function unique(values: string[]) {
+  const seen = new Set<string>();
+  return values.filter((value) => {
+    const key = normalize(value);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function structuredMeanings(word: TranslationWord) {
+  return unique(word.meanings?.map((meaning) => meaning.translation) ?? []);
+}
+
 function sourceForms(word: TranslationWord, direction: TranslationDirection) {
-  if (direction === "koelsch-de") return [word.koelsch, ...word.aliases];
-  return [word.translation, ...splitWordMeanings(word.translation)];
+  if (direction === "koelsch-de") {
+    return unique([
+      word.koelsch,
+      ...(word.variants?.map((variant) => variant.spelling) ?? []),
+      ...word.aliases,
+    ]);
+  }
+  const meanings = structuredMeanings(word);
+  return meanings.length
+    ? meanings
+    : unique([word.translation, ...splitWordMeanings(word.translation)]);
+}
+
+function candidateFor(word: TranslationWord, direction: TranslationDirection): Candidate {
+  if (direction === "de-koelsch") {
+    return { target: word.koelsch, slug: word.slug, alternatives: [] };
+  }
+  const meanings = structuredMeanings(word);
+  const targets = meanings.length ? meanings : [word.translation];
+  return { target: targets[0], slug: word.slug, alternatives: targets.slice(1) };
 }
 
 function dictionaryMap(words: TranslationWord[], direction: TranslationDirection) {
-  const map = new Map<string, Candidate>();
+  const map = new Map<string, Candidate[]>();
   let maxWords = 1;
   for (const word of words) {
-    const target = direction === "de-koelsch" ? word.koelsch : word.translation;
+    const candidate = candidateFor(word, direction);
     for (const form of sourceForms(word, direction)) {
       const key = normalize(form);
-      if (!key || map.has(key)) continue;
-      map.set(key, { target, slug: word.slug });
+      if (!key) continue;
+      const candidates = map.get(key) ?? [];
+      if (!candidates.some((entry) => normalize(entry.target) === normalize(candidate.target))) {
+        candidates.push(candidate);
+      }
+      map.set(key, candidates);
       maxWords = Math.max(maxWords, key.split(" ").length);
     }
   }
@@ -102,12 +141,18 @@ export function translateCuratedText(
 
     const match = spans.reverse().find((span) => map.has(span.key));
     if (match) {
-      const candidate = map.get(match.key)!;
+      const candidates = map.get(match.key)!;
+      const candidate = candidates[0];
+      const alternatives = unique([
+        ...candidate.alternatives,
+        ...candidates.slice(1).flatMap((entry) => [entry.target, ...entry.alternatives]),
+      ]).filter((value) => normalize(value) !== normalize(candidate.target));
       output.push(candidate.target);
       matches.push({
         source: match.source.trim(),
         target: candidate.target,
         slug: candidate.slug,
+        ...(alternatives.length ? { alternatives } : {}),
       });
       index = match.end + 1;
     } else {

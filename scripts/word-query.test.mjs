@@ -54,3 +54,33 @@ test("ranks exact words first and removes duplicate slugs", () => {
     ["koelle", "alaaf"],
   );
 });
+
+test("finds and ranks structured meanings and spelling variants", () => {
+  const words = [
+    {
+      id: 1,
+      koelsch: "Kappes",
+      slug: "kappes",
+      translation: "Kohl; Unsinn",
+      meanings: [{ translation: "Kohl" }, { translation: "Unsinn" }],
+      variants: [{ spelling: "Kapes" }],
+    },
+    {
+      id: 2,
+      koelsch: "Unsinnich",
+      slug: "unsinnich",
+      translation: "albern",
+      meanings: [{ translation: "albern" }],
+      variants: [],
+    },
+  ];
+
+  assert.deepEqual(
+    rankWordSuggestions(words, "Kapes", 6).map((word) => word.slug),
+    ["kappes"],
+  );
+  assert.deepEqual(
+    rankWordSuggestions(words, "Unsinn", 6).map((word) => word.slug),
+    ["unsinnich", "kappes"],
+  );
+});
