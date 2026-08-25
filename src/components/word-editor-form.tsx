@@ -14,6 +14,9 @@ export type EditableWord = {
   aliases: string[];
   phonetic: string | null;
   category: string;
+  grammaticalGender: string | null;
+  article: string | null;
+  plural: string | null;
   partOfSpeech: string | null;
   example: string | null;
   exampleTranslation: string | null;
@@ -91,6 +94,52 @@ export function WordEditorForm({
       </div>
 
       <WordStructureFields meanings={meanings} variants={variants} />
+
+      <section className="grid gap-4 border-t border-line pt-6" aria-labelledby="grammar-heading">
+        <div>
+          <h2 id="grammar-heading" className="font-koelsch text-2xl font-semibold text-ink">
+            Grammatik
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-ink-soft">
+            Artikel, Genus und Plural gehören zum kölschen Lemma und können vom Hochdeutschen abweichen.
+          </p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-3">
+          <label className="text-sm font-medium text-ink">
+            Artikel
+            <input
+              name="article"
+              maxLength={40}
+              defaultValue={word?.article ?? ""}
+              placeholder="z. B. der, de oder et"
+              className={fieldClass}
+            />
+          </label>
+          <label className="text-sm font-medium text-ink">
+            Genus
+            <select
+              name="grammaticalGender"
+              defaultValue={word?.grammaticalGender ?? ""}
+              className={fieldClass}
+            >
+              <option value="">Noch offen</option>
+              <option value="masculine">Maskulinum</option>
+              <option value="feminine">Femininum</option>
+              <option value="neuter">Neutrum</option>
+            </select>
+          </label>
+          <label className="text-sm font-medium text-ink">
+            Plural
+            <input
+              name="plural"
+              maxLength={120}
+              defaultValue={word?.plural ?? ""}
+              placeholder="z. B. de Pänz"
+              className={fieldClass}
+            />
+          </label>
+        </div>
+      </section>
 
       <label className="border-t border-line pt-6 text-sm font-medium text-ink">
         Allgemeine Einordnung <span className="font-normal text-ink-faint">optional</span>

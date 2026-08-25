@@ -1,3 +1,5 @@
+import type { GrammaticalGender } from "./word-metadata.ts";
+
 export type WordMeaningEditorData = {
   translation: string;
   definition: string | null;
@@ -20,6 +22,9 @@ export type WordEditorData = {
   aliases: string[];
   phonetic: string | null;
   category: string;
+  grammaticalGender: GrammaticalGender | null;
+  article: string | null;
+  plural: string | null;
   partOfSpeech: string | null;
   example: string | null;
   exampleTranslation: string | null;
@@ -178,6 +183,10 @@ export function parseWordEditorInput(
           exampleTranslation: optional(String(input.exampleTranslation ?? "")),
         },
       ];
+  const genderValue = String(input.grammaticalGender ?? "");
+  const grammaticalGender = ["masculine", "feminine", "neuter"].includes(genderValue)
+    ? (genderValue as GrammaticalGender)
+    : null;
 
   return {
     ok: true,
@@ -189,6 +198,9 @@ export function parseWordEditorInput(
       phonetic: optional(String(input.phonetic ?? "")),
       category:
         String(input.category ?? "").trim().toLocaleLowerCase("de-DE") || "allgemein",
+      grammaticalGender,
+      article: optional(String(input.article ?? "")),
+      plural: optional(String(input.plural ?? "")),
       partOfSpeech:
         structuredMeanings[0]?.partOfSpeech ?? optional(String(input.partOfSpeech ?? "")),
       example: structuredMeanings[0]?.example ?? optional(String(input.example ?? "")),

@@ -18,6 +18,9 @@ model Word {
   category           String        @default("allgemein")
   aliases            String[]      @default([])
   partOfSpeech       String?
+  grammaticalGender  String?
+  article            String?
+  plural             String?
   notes              String?
   reviewStatus       String        @default("pending")
   source             String?
