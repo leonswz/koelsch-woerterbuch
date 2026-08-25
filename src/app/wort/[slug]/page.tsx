@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { getEditorSession } from "@/lib/editor-session";
 import { buildWordExplanation } from "@/lib/word-relations";
 import { getRelatedWords, getWordBySlug } from "@/lib/words";
 
@@ -15,14 +16,27 @@ export default async function WortPage({
   const { slug } = await params;
   const word = await getWordBySlug(slug);
   if (!word) notFound();
-  const relatedWords = await getRelatedWords(word);
+  const [relatedWords, editor] = await Promise.all([
+    getRelatedWords(word),
+    getEditorSession(),
+  ]);
   const explanation = buildWordExplanation(word);
 
   return (
     <div className="grid gap-6">
-      <Link href="/az" className="text-sm text-koelsch hover:underline">
-        ← Zurück zu A–Z
-      </Link>
+      <div className="flex items-center justify-between gap-4">
+        <Link href="/az" className="text-sm text-koelsch hover:underline">
+          ← Zurück zu A–Z
+        </Link>
+        {editor ? (
+          <Link
+            href={`/redaktion/woerter/${word.id}`}
+            className="rounded-[var(--radius-control)] border border-line bg-card px-4 py-2 text-sm font-medium text-ink-soft shadow-sm hover:border-koelsch/30 hover:text-koelsch"
+          >
+            Bearbeiten
+          </Link>
+        ) : null}
+      </div>
 
       <article className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-card shadow-sm">
         <header className="border-b border-line bg-paper/45 px-6 py-7 sm:px-8">
@@ -47,12 +61,14 @@ export default async function WortPage({
             </p>
           </section>
 
-          <section className="rounded-[var(--radius-control)] border border-koelsch/15 bg-koelsch-soft/45 px-5 py-4">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-koelsch">
-              Erklärung
-            </h2>
-            <p className="mt-2 leading-7 text-ink-soft">{explanation}</p>
-          </section>
+          {explanation ? (
+            <section className="rounded-[var(--radius-control)] border border-koelsch/15 bg-koelsch-soft/45 px-5 py-4">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-koelsch">
+                Erklärung
+              </h2>
+              <p className="mt-2 leading-7 text-ink-soft">{explanation}</p>
+            </section>
+          ) : null}
 
           {word.aliases.length ? (
             <section>

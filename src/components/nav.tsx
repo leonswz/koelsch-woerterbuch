@@ -9,6 +9,7 @@ import {
   LogOut,
   Menu,
   Music2,
+  PenLine,
   Quote,
 } from "lucide-react";
 
@@ -26,7 +27,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
-const links = [
+const publicLinks = [
   {
     href: "/",
     label: "Start",
@@ -53,8 +54,19 @@ const links = [
   },
 ];
 
-export function Nav() {
+export function Nav({ showEditor = false }: { showEditor?: boolean }) {
   const pathname = usePathname();
+  const links = showEditor
+    ? [
+        ...publicLinks,
+        {
+          href: "/redaktion",
+          label: "Redaktion",
+          description: "Begriffe und Erklärungen pflegen",
+          icon: PenLine,
+        },
+      ]
+    : publicLinks;
   if (pathname === "/login") return null;
 
   return (

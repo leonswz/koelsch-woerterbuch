@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Nav } from "@/components/nav";
+import { getEditorSession } from "@/lib/editor-session";
 
 export const metadata: Metadata = {
   title: {
@@ -11,11 +12,12 @@ export const metadata: Metadata = {
     "Das Kölsch Wörterbuch: Wörter, Lieder und Sprichwörter aus Köln – nachschlagen, verstehen, weitersagen.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const showEditor = Boolean(await getEditorSession());
   return (
     <html lang="de" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <Nav />
+        <Nav showEditor={showEditor} />
         <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-20 pt-10">
           {children}
         </main>

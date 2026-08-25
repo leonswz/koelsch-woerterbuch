@@ -26,11 +26,8 @@ test("uses an editorial note as the explanation when one exists", () => {
   );
 });
 
-test("creates a concise explanation when no editorial note exists", () => {
-  assert.equal(
-    buildWordExplanation(word({ aliases: ["Cölle"] })),
-    "„Kölle“ bedeutet auf Hochdeutsch „Köln, Stadt am Rhein“. Eine weitere Schreibweise ist „Cölle“.",
-  );
+test("returns no explanation when no editorial note exists", () => {
+  assert.equal(buildWordExplanation(word({ notes: null, aliases: ["Cölle"] })), null);
 });
 
 test("extracts useful translation terms but ignores common filler words", () => {

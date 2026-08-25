@@ -60,21 +60,8 @@ export function relatedSearchTerms(translation: string): string[] {
   ].slice(0, 6);
 }
 
-export function buildWordExplanation(word: WordRelationSource): string {
-  const note = word.notes?.trim();
-  if (note) return note;
-
-  const base = `„${word.koelsch}“ bedeutet auf Hochdeutsch „${word.translation}“.`;
-  const aliases = word.aliases?.filter(Boolean) ?? [];
-  if (aliases.length === 1) {
-    return `${base} Eine weitere Schreibweise ist „${aliases[0]}“.`;
-  }
-  if (aliases.length > 1) {
-    return `${base} Weitere Schreibweisen sind ${aliases
-      .map((alias) => `„${alias}“`)
-      .join(", ")}.`;
-  }
-  return base;
+export function buildWordExplanation(word: WordRelationSource): string | null {
+  return word.notes?.trim() || null;
 }
 
 function relationScore(current: WordRelationSource, candidate: RelatedWord) {
