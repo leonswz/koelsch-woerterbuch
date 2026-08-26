@@ -8,6 +8,10 @@ import type {
   TranslationDirection,
   TranslationResult,
 } from "@/lib/translator";
+import {
+  translationCompletionMessage,
+  translationStatusCopy,
+} from "@/lib/translation-status";
 
 type TranslatorFormProps = {
   initialText: string;
@@ -28,6 +32,7 @@ export function TranslatorForm({
   const abortRef = useRef<AbortController | null>(null);
   const ambiguousMatches =
     result?.matches.filter((match) => match.alternatives?.length) ?? [];
+  const statusDetails = result ? translationStatusCopy(result.status) : null;
 
   async function translate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -151,31 +156,63 @@ export function TranslatorForm({
           className="grid gap-5 rounded-[var(--radius-card)] border border-koelsch/20 bg-koelsch-soft/35 p-6 sm:p-8"
           aria-live="polite"
         >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-koelsch">
-              Übersetzung
-            </p>
-            <p className="mt-3 font-koelsch text-3xl font-semibold leading-snug text-ink">
+          <div className="grid gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-koelsch">
+                Übersetzung
+              </p>
+              {statusDetails ? (
+                <span
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                    statusDetails.tone === "partial"
+                      ? "border-amber-200 bg-amber-50 text-amber-900"
+                      : statusDetails.tone === "rule"
+                        ? "border-koelsch/25 bg-card text-koelsch-deep"
+                        : "border-green-200 bg-green-50 text-green-800"
+                  }`}
+                >
+                  {statusDetails.label}
+                </span>
+              ) : null}
+            </div>
+            <p className="font-koelsch text-3xl font-semibold leading-snug text-ink">
               {result.text}
             </p>
+            {statusDetails ? (
+              <p className="text-sm leading-6 text-ink-soft">{statusDetails.description}</p>
+            ) : null}
           </div>
 
           {result.matches.length ? (
             <div className="border-t border-koelsch/15 pt-4">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint">
-                Erkannte Begriffe
+                Verwendete Bausteine
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {result.matches.map((match, index) => (
-                  <Link
-                    key={`${match.slug}-${index}`}
-                    href={`/wort/${match.slug}`}
-                    className="rounded-full border border-koelsch/20 bg-card px-3 py-1.5 text-sm text-ink-soft hover:text-koelsch"
-                  >
-                    <span className="font-medium">{match.source}</span> → {match.target}
-                  </Link>
-                ))}
+                {result.matches.map((match, index) =>
+                  match.slug ? (
+                    <Link
+                      key={`${match.slug}-${index}`}
+                      href={`/wort/${match.slug}`}
+                      className="rounded-full border border-koelsch/20 bg-card px-3 py-1.5 text-sm text-ink-soft hover:text-koelsch"
+                    >
+                      <span className="font-medium">{match.source}</span> → {match.target}
+                    </Link>
+                  ) : (
+                    <span
+                      key={`grammar-${match.source}-${index}`}
+                      className="rounded-full border border-line bg-paper px-3 py-1.5 text-sm text-ink-soft"
+                    >
+                      <span className="font-medium">{match.source}</span> → {match.target}
+                    </span>
+                  ),
+                )}
               </div>
+              {result.rulesApplied.length ? (
+                <p className="mt-3 text-xs leading-5 text-ink-faint">
+                  Regeln: {result.rulesApplied.join(" · ")}
+                </p>
+              ) : null}
             </div>
           ) : null}
 
@@ -201,7 +238,7 @@ export function TranslatorForm({
             </p>
           ) : (
             <p className="text-sm font-medium text-green-800">
-              Alle Wörter wurden in der kuratierten Sammlung gefunden.
+              {translationCompletionMessage(result.status)}
             </p>
           )}
         </section>

@@ -50,7 +50,7 @@ export default async function UebersetzerPage({ searchParams }: TranslatorPagePr
           Deutsch ↔ Kölsch
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-ink-soft">
-          Kuratiert statt erfunden: Der Übersetzer verwendet unsere gepflegten Begriffe und zeigt offen, welche Wörter er noch nicht kennt.
+          Wörterbuch plus feste Grammatikregeln: nachvollziehbar, ohne KI und ohne erfundene kölsche Formen.
         </p>
       </header>
 
@@ -61,7 +61,7 @@ export default async function UebersetzerPage({ searchParams }: TranslatorPagePr
       />
 
       <p className="text-center text-xs leading-5 text-ink-faint">
-        Aktuell ist dies die verlässliche, datenbasierte Version. Satzbau und Grammatik werden mit der wachsenden Redaktion schrittweise verbessert.
+        Der Übersetzer kombiniert gepflegte Wörter und Wendungen mit festen Regeln. Unsichere oder unbekannte Teile bleiben sichtbar.
       </p>
     </div>
   );

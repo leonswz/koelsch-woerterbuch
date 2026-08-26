@@ -1,4 +1,5 @@
 import { splitWordMeanings } from "./word-meanings.ts";
+import { translationGrammarRules } from "./translation-grammar.ts";
 
 export type TranslationDirection = "de-koelsch" | "koelsch-de";
 
@@ -15,7 +16,8 @@ export type TranslationWord = {
 export type TranslationMatch = {
   source: string;
   target: string;
-  slug: string;
+  slug: string | null;
+  kind: "dictionary" | "grammar";
   alternatives?: string[];
 };
 
@@ -23,9 +25,17 @@ export type TranslationResult = {
   text: string;
   matches: TranslationMatch[];
   unmatchedWords: number;
+  status: "dictionary" | "rule-based" | "partial";
+  rulesApplied: string[];
 };
 
-type Candidate = { target: string; slug: string; alternatives: string[] };
+type Candidate = {
+  target: string;
+  slug: string | null;
+  alternatives: string[];
+  kind: "dictionary" | "grammar";
+  ruleLabel?: string;
+};
 type Token = { raw: string; word: boolean };
 
 function normalize(value: string) {
@@ -67,11 +77,21 @@ function sourceForms(word: TranslationWord, direction: TranslationDirection) {
 
 function candidateFor(word: TranslationWord, direction: TranslationDirection): Candidate {
   if (direction === "de-koelsch") {
-    return { target: word.koelsch, slug: word.slug, alternatives: [] };
+    return {
+      target: word.koelsch,
+      slug: word.slug,
+      alternatives: [],
+      kind: "dictionary",
+    };
   }
   const meanings = structuredMeanings(word);
   const targets = meanings.length ? meanings : [word.translation];
-  return { target: targets[0], slug: word.slug, alternatives: targets.slice(1) };
+  return {
+    target: targets[0],
+    slug: word.slug,
+    alternatives: targets.slice(1),
+    kind: "dictionary",
+  };
 }
 
 function dictionaryMap(words: TranslationWord[], direction: TranslationDirection) {
@@ -90,7 +110,26 @@ function dictionaryMap(words: TranslationWord[], direction: TranslationDirection
       maxWords = Math.max(maxWords, key.split(" ").length);
     }
   }
+  for (const rule of translationGrammarRules(direction)) {
+    const key = normalize(rule.source);
+    if (!key || map.has(key)) continue;
+    map.set(key, [
+      {
+        target: rule.target,
+        slug: null,
+        alternatives: [],
+        kind: "grammar",
+        ruleLabel: rule.label,
+      },
+    ]);
+    maxWords = Math.max(maxWords, key.split(" ").length);
+  }
   return { map, maxWords: Math.min(maxWords, 8) };
+}
+
+function applySourceCasing(source: string, target: string) {
+  if (!/^\p{Lu}/u.test(source) || !target) return target;
+  return `${target[0].toLocaleUpperCase("de-DE")}${target.slice(1)}`;
 }
 
 function tokensFor(text: string): Token[] {
@@ -103,11 +142,12 @@ export function translateCuratedText(
   text: string,
   words: TranslationWord[],
   direction: TranslationDirection,
-) {
+): TranslationResult {
   const tokens = tokensFor(text);
   const { map, maxWords } = dictionaryMap(words, direction);
   const output: string[] = [];
   const matches: TranslationMatch[] = [];
+  const rulesApplied: string[] = [];
   let unmatchedWords = 0;
   let index = 0;
 
@@ -147,13 +187,18 @@ export function translateCuratedText(
         ...candidate.alternatives,
         ...candidates.slice(1).flatMap((entry) => [entry.target, ...entry.alternatives]),
       ]).filter((value) => normalize(value) !== normalize(candidate.target));
-      output.push(candidate.target);
+      const target = applySourceCasing(match.source.trim(), candidate.target);
+      output.push(target);
       matches.push({
         source: match.source.trim(),
-        target: candidate.target,
+        target,
         slug: candidate.slug,
+        kind: candidate.kind,
         ...(alternatives.length ? { alternatives } : {}),
       });
+      if (candidate.ruleLabel && !rulesApplied.includes(candidate.ruleLabel)) {
+        rulesApplied.push(candidate.ruleLabel);
+      }
       index = match.end + 1;
     } else {
       output.push(tokens[index].raw);
@@ -162,5 +207,11 @@ export function translateCuratedText(
     }
   }
 
-  return { text: output.join(""), matches, unmatchedWords };
+  const status = unmatchedWords
+    ? "partial"
+    : rulesApplied.length
+      ? "rule-based"
+      : "dictionary";
+
+  return { text: output.join(""), matches, unmatchedWords, status, rulesApplied };
 }
