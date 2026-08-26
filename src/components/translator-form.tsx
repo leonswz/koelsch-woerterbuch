@@ -33,6 +33,9 @@ export function TranslatorForm({
   const ambiguousMatches =
     result?.matches.filter((match) => match.alternatives?.length) ?? [];
   const statusDetails = result ? translationStatusCopy(result.status) : null;
+  const completionMessage = result
+    ? translationCompletionMessage(result.status)
+    : null;
 
   async function translate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -236,11 +239,11 @@ export function TranslatorForm({
             <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
               {result.unmatchedWords} {result.unmatchedWords === 1 ? "Wort wurde" : "Wörter wurden"} noch nicht übersetzt und deshalb unverändert gelassen. So erfindet der Übersetzer keine falschen kölschen Formen.
             </p>
-          ) : (
+          ) : completionMessage ? (
             <p className="text-sm font-medium text-green-800">
-              {translationCompletionMessage(result.status)}
+              {completionMessage}
             </p>
-          )}
+          ) : null}
         </section>
       ) : null}
     </div>

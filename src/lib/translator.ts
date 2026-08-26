@@ -25,7 +25,7 @@ export type TranslationResult = {
   text: string;
   matches: TranslationMatch[];
   unmatchedWords: number;
-  status: "dictionary" | "rule-based" | "partial";
+  status: "dictionary" | "rule-based" | "partial" | "untranslated";
   rulesApplied: string[];
 };
 
@@ -207,11 +207,13 @@ export function translateCuratedText(
     }
   }
 
-  const status = unmatchedWords
-    ? "partial"
-    : rulesApplied.length
-      ? "rule-based"
-      : "dictionary";
+  const status = !matches.length
+    ? "untranslated"
+    : unmatchedWords
+      ? "partial"
+      : rulesApplied.length
+        ? "rule-based"
+        : "dictionary";
 
   return { text: output.join(""), matches, unmatchedWords, status, rulesApplied };
 }

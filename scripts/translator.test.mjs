@@ -101,6 +101,28 @@ test("keeps dictionary entries ahead of fallback grammar rules", () => {
   });
 });
 
+test("marks output as untranslated when nothing matched", () => {
+  assert.deepEqual(translateCuratedText("Limonade", words, "de-koelsch"), {
+    text: "Limonade",
+    matches: [],
+    unmatchedWords: 1,
+    status: "untranslated",
+    rulesApplied: [],
+  });
+});
+
+test("does not claim dictionary coverage for punctuation or emoji only", () => {
+  for (const input of ["...", "🔥"]) {
+    assert.deepEqual(translateCuratedText(input, words, "de-koelsch"), {
+      text: input,
+      matches: [],
+      unmatchedWords: 0,
+      status: "untranslated",
+      rulesApplied: [],
+    });
+  }
+});
+
 test("marks rule-based output as partial when a word stays unknown", () => {
   const result = translateCuratedText("Wir trinken Limonade.", [
     { id: 6, slug: "drinke", koelsch: "drinke", translation: "trinken", aliases: [] },

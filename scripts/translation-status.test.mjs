@@ -26,6 +26,15 @@ test("describes dictionary-only output separately", () => {
   assert.equal(translationStatusCopy("dictionary").label, "Aus dem Wörterbuch");
 });
 
+test("describes output with no translated content honestly", () => {
+  assert.deepEqual(translationStatusCopy("untranslated"), {
+    label: "Nicht übersetzt",
+    description: "Kein Bestandteil wurde im Wörterbuch oder in den festen Regeln gefunden.",
+    tone: "partial",
+  });
+  assert.equal(translationCompletionMessage("untranslated"), null);
+});
+
 test("uses honest completion messages for dictionary and rule-based output", () => {
   assert.equal(
     translationCompletionMessage("dictionary"),

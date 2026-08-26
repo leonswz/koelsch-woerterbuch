@@ -24,6 +24,11 @@ const statusCopy: Record<TranslationStatus, TranslationStatusCopy> = {
     description: "Unbekannte Bestandteile bleiben unverändert im Text.",
     tone: "partial",
   },
+  untranslated: {
+    label: "Nicht übersetzt",
+    description: "Kein Bestandteil wurde im Wörterbuch oder in den festen Regeln gefunden.",
+    tone: "partial",
+  },
 };
 
 export function translationStatusCopy(status: TranslationStatus) {
@@ -31,6 +36,7 @@ export function translationStatusCopy(status: TranslationStatus) {
 }
 
 export function translationCompletionMessage(status: TranslationStatus) {
+  if (status === "untranslated" || status === "partial") return null;
   return status === "dictionary"
     ? "Alle Wörter wurden im Wörterbuch gefunden."
     : "Der Text wurde vollständig aus Wörterbuch und festen Regeln zusammengesetzt.";
